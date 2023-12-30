@@ -41,7 +41,7 @@ http --json POST https://warm-springs-90557-4a73d66a2571.herokuapp.com/summaries
 docker build -f project/Dockerfile.prod -t ghcr.io/joesurf/toolfinder/summarizer:latest ./project
 
 
-docker login ghcr.io -u joesurf -p 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
+docker login ghcr.io -u joesurf -p <token>
 
 
 docker push ghcr.io/joesurf/toolfinder/summarizer:latest
