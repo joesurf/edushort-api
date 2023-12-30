@@ -1,3 +1,8 @@
+# Test-Driven Development with FastAPI and Docker
+
+![Continuous Integration and Delivery](https://github.com/joesurf/fastapi-tdd-docker/workflows/Continuous%20Integration%20and%20Delivery/badge.svg?branch=main)
+
+
 warm-springs-90557-4a73d66a2571
 
 heroku addons:create heroku-postgresql:mini --app warm-springs-90557
@@ -27,3 +32,16 @@ heroku run aerich upgrade --app warm-springs-90557
 
 
 http --json POST https://warm-springs-90557-4a73d66a2571.herokuapp.com/summaries/ url=https://testdriven.io
+
+
+
+--------------------
+
+
+docker build -f project/Dockerfile.prod -t ghcr.io/joesurf/toolfinder/summarizer:latest ./project
+
+
+docker login ghcr.io -u joesurf -p <TOKEN>
+
+
+docker push ghcr.io/joesurf/toolfinder/summarizer:latest
