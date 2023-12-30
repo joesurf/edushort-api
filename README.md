@@ -45,3 +45,6 @@ docker login ghcr.io -u joesurf -p <token>
 
 
 docker push ghcr.io/joesurf/toolfinder/summarizer:latest
+
+
+git remote set-url origin https://joesurf:<token>@github.com/joesurf/toolfinder.git
