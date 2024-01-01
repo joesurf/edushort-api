@@ -7,9 +7,8 @@ from fastapi.security import OAuth2PasswordBearer
 
 from app.auth.jwt_helper import is_token_blacklisted
 
-
 # create a fake db
-FAKE_DB = {'hey@joesurf.io': {'name': 'Joseph'}}
+FAKE_DB = {"hey@joesurf.io": {"name": "Joseph"}}
 
 
 # Helper to read numbers using var envs
@@ -24,20 +23,22 @@ def cast_to_number(id):
 
 
 # Configuration
-API_SECRET_KEY = os.environ.get('API_SECRET_KEY') or None
+API_SECRET_KEY = os.environ.get("API_SECRET_KEY") or None
 if API_SECRET_KEY is None:
-    raise BaseException('Missing API_SECRET_KEY env var.')
-API_ALGORITHM = os.environ.get('API_ALGORITHM') or 'HS256'
-API_ACCESS_TOKEN_EXPIRE_MINUTES = cast_to_number('API_ACCESS_TOKEN_EXPIRE_MINUTES') or 15
+    raise BaseException("Missing API_SECRET_KEY env var.")
+API_ALGORITHM = os.environ.get("API_ALGORITHM") or "HS256"
+API_ACCESS_TOKEN_EXPIRE_MINUTES = (
+    cast_to_number("API_ACCESS_TOKEN_EXPIRE_MINUTES") or 15
+)
 
 # Token url (We should later create a token url that accepts just a user and a password to use it with Swagger)
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 # Error
 CREDENTIALS_EXCEPTION = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
-    detail='Could not validate credentials',
-    headers={'WWW-Authenticate': 'Bearer'},
+    detail="Could not validate credentials",
+    headers={"WWW-Authenticate": "Bearer"},
 )
 
 
@@ -48,7 +49,7 @@ def create_access_token(*, data: dict, expires_delta: timedelta = None):
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({'exp': expire})
+    to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, API_SECRET_KEY, algorithm=API_ALGORITHM)
     return encoded_jwt
 
@@ -56,7 +57,9 @@ def create_access_token(*, data: dict, expires_delta: timedelta = None):
 # Create token for an email
 def create_token(email):
     access_token_expires = timedelta(minutes=API_ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(data={'sub': email}, expires_delta=access_token_expires)
+    access_token = create_access_token(
+        data={"sub": email}, expires_delta=access_token_expires
+    )
     return access_token
 
 
@@ -70,7 +73,7 @@ async def get_current_user_email(token: str = Depends(oauth2_scheme)):
 
     try:
         payload = decode_token(token)
-        email: str = payload.get('sub')
+        email: str = payload.get("sub")
         if email is None:
             raise CREDENTIALS_EXCEPTION
     except jwt.PyJWTError:
@@ -87,13 +90,12 @@ async def get_current_user_token(token: str = Depends(oauth2_scheme)):
     return token
 
 
-
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 30
 
 
 def create_refresh_token(email):
     expires = timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)
-    return create_access_token(data={'sub': email}, expires_delta=expires)
+    return create_access_token(data={"sub": email}, expires_delta=expires)
 
 
 def decode_token(token):

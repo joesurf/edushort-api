@@ -5,7 +5,7 @@ import pytest
 
 def test_create_tool(test_app_with_db):
     response = test_app_with_db.post(
-        "/tools/", data=json.dumps({"url": "https://foo.bar"})
+        "/api/tools/", data=json.dumps({"url": "https://foo.bar"})
     )
 
     assert response.status_code == 201
@@ -13,7 +13,7 @@ def test_create_tool(test_app_with_db):
 
 
 def test_create_tools_invalid_json(test_app):
-    response = test_app.post("/tools/", data=json.dumps({}))
+    response = test_app.post("/api/tools/", data=json.dumps({}))
     assert response.status_code == 422
     assert response.json() == {
         "detail": [
@@ -25,18 +25,18 @@ def test_create_tools_invalid_json(test_app):
         ]
     }
 
-    response = test_app.post("/tools/", data=json.dumps({"url": "invalid://url"}))
+    response = test_app.post("/api/tools/", data=json.dumps({"url": "invalid://url"}))
     assert response.status_code == 422
     assert response.json()["detail"][0]["msg"] == "URL scheme not permitted"
 
 
 def test_get_tool(test_app_with_db):
     response = test_app_with_db.post(
-        "/tools/", data=json.dumps({"url": "https://foo.bar"})
+        "/api/tools/", data=json.dumps({"url": "https://foo.bar"})
     )
     tool_id = response.json()["id"]
 
-    response = test_app_with_db.get(f"/tools/{tool_id}/")
+    response = test_app_with_db.get(f"/api/tools/{tool_id}/")
     assert response.status_code == 200
 
     response_dict = response.json()
@@ -47,11 +47,11 @@ def test_get_tool(test_app_with_db):
 
 
 def test_get_tool_incorrect_id(test_app_with_db):
-    response = test_app_with_db.get("/tools/999/")
+    response = test_app_with_db.get("/api/tools/999/")
     assert response.status_code == 404
     assert response.json()["detail"] == "Tool not found"
 
-    response = test_app_with_db.get("/tools/0/")
+    response = test_app_with_db.get("/api/tools/0/")
     assert response.status_code == 422
     assert response.json() == {
         "detail": [
@@ -67,11 +67,11 @@ def test_get_tool_incorrect_id(test_app_with_db):
 
 def test_get_all_tools(test_app_with_db):
     response = test_app_with_db.post(
-        "/tools/", data=json.dumps({"url": "https://foo.bar"})
+        "/api/tools/", data=json.dumps({"url": "https://foo.bar"})
     )
     tool_id = response.json()["id"]
 
-    response = test_app_with_db.get("/tools/")
+    response = test_app_with_db.get("/api/tools/")
     assert response.status_code == 200
 
     response_list = response.json()
@@ -80,21 +80,21 @@ def test_get_all_tools(test_app_with_db):
 
 def test_remove_tool(test_app_with_db):
     response = test_app_with_db.post(
-        "/tools/", data=json.dumps({"url": "https://foo.bar"})
+        "/api/tools/", data=json.dumps({"url": "https://foo.bar"})
     )
     tool_id = response.json()["id"]
 
-    response = test_app_with_db.delete(f"/tools/{tool_id}/")
+    response = test_app_with_db.delete(f"/api/tools/{tool_id}/")
     assert response.status_code == 200
     assert response.json() == {"id": tool_id, "url": "https://foo.bar"}
 
 
 def test_remove_tool_incorrect_id(test_app_with_db):
-    response = test_app_with_db.delete("/tools/999/")
+    response = test_app_with_db.delete("/api/tools/999/")
     assert response.status_code == 404
     assert response.json()["detail"] == "Tool not found"
 
-    response = test_app_with_db.delete("/tools/0/")
+    response = test_app_with_db.delete("/api/tools/0/")
     assert response.status_code == 422
     assert response.json() == {
         "detail": [
@@ -110,12 +110,12 @@ def test_remove_tool_incorrect_id(test_app_with_db):
 
 def test_update_tool(test_app_with_db):
     response = test_app_with_db.post(
-        "/tools/", data=json.dumps({"url": "https://foo.bar"})
+        "/api/tools/", data=json.dumps({"url": "https://foo.bar"})
     )
     tool_id = response.json()["id"]
 
     response = test_app_with_db.put(
-        f"/tools/{tool_id}/",
+        f"/api/tools/{tool_id}/",
         data=json.dumps({"url": "https://foo.bar", "description": "updated!"}),
     )
     assert response.status_code == 200
@@ -181,14 +181,14 @@ def test_update_tool(test_app_with_db):
     ],
 )
 def test_update_tool_invalid(test_app_with_db, tool_id, payload, status_code, detail):
-    response = test_app_with_db.put(f"/tools/{tool_id}/", data=json.dumps(payload))
+    response = test_app_with_db.put(f"/api/tools/{tool_id}/", data=json.dumps(payload))
     assert response.status_code == status_code
     assert response.json()["detail"] == detail
 
 
 def test_update_tool_invalid_url(test_app_with_db):
     response = test_app_with_db.put(
-        "/tools/1/",
+        "/api/tools/1/",
         data=json.dumps({"url": "invalid://url", "description": "updated!"}),
     )
     assert response.status_code == 422
