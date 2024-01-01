@@ -3,9 +3,13 @@ from typing import List
 from fastapi import APIRouter, HTTPException, Path
 
 from app.api import tools_crud
-from app.models.pydantic import (ToolPayloadSchema, ToolResponseSchema,
-                                 ToolUpdatePayloadSchema)
 from app.models.tortoise import ToolSchema
+
+from app.models.pydantic import (  # isort:skip
+    ToolPayloadSchema,
+    ToolResponseSchema,
+    ToolUpdatePayloadSchema,
+)
 
 router = APIRouter()
 
