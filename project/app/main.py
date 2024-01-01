@@ -17,39 +17,39 @@ from app.auth.jwt_helper import init_blacklist_file, add_blacklist_token
 
 log = logging.getLogger("uvicorn")
 
+SECRET_KEY = os.environ.get('SECRET_KEY') or None
+if SECRET_KEY is None:
+    raise 'Missing SECRET_KEY'
+
+ALLOWED_HOSTS = ["*"]
+
 
 def create_application() -> FastAPI:
+    # jwt blacklist
     init_blacklist_file()
+
+
     application = FastAPI()
 
+    # Auth routes
+    app = FastAPI()
+    app.include_router(auth_app, prefix="/auth", tags=["auth"])
+    app.include_router(api_app, prefix="/api", tags=["api"])
+
+    # Configure middleware
+    app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=ALLOWED_HOSTS,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     return application
 
 
 app = create_application()
-
-SECRET_KEY = os.environ.get('SECRET_KEY') or None
-if SECRET_KEY is None:
-    raise 'Missing SECRET_KEY'
-
-
-# Auth routes
-app = FastAPI()
-app.include_router(auth_app, prefix="/auth", tags=["auth"])
-app.include_router(api_app, prefix="/api", tags=["api"])
-
-app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
-
-
-ALLOWED_HOSTS = ["*"]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=ALLOWED_HOSTS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 @app.on_event("startup")
