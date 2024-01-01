@@ -1,6 +1,7 @@
 # ToolFinder: AI-Powered Toolbox for Entrepreneurs
 
-![Continuous Integration and Delivery](https://github.com/joesurf/toolfinder/workflows/Continuous%20Integration%20and%20Deployment/badge.svg)
+![Continuous Integration](https://github.com/joesurf/toolfinder/workflows/Continuous%20Integration/badge.svg)
+![Continuous Deployment](https://github.com/joesurf/toolfinder/workflows/Continuous%20Deployment/badge.svg)
 
 
 ## Overview
