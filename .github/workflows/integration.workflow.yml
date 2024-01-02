@@ -28,6 +28,9 @@ jobs:
       - name: Build image
         env:
           API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: |
           docker build \
             --cache-from ${{ env.IMAGE }}:latest \
