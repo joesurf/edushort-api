@@ -1,4 +1,5 @@
 import os
+import logging
 from datetime import datetime, timedelta
 
 import jwt
@@ -7,6 +8,9 @@ from fastapi.security import OAuth2PasswordBearer
 
 from app.auth.jwt_helper import is_token_blacklisted
 from app.auth.user_auth import valid_email_from_db
+
+
+log = logging.getLogger("uvicorn")
 
 
 # Token url (We should later create a token url that accepts just a user and a password to use it with Swagger)
@@ -47,8 +51,8 @@ class JWTManager:
         return None
 
 
-    # Create token internal function
     def _create_access_token(self, *, data: dict, expires_delta: timedelta = None):
+        """Create token internal function"""
         to_encode = data.copy()
         if expires_delta:
             expire = datetime.utcnow() + expires_delta
@@ -67,6 +71,7 @@ class JWTManager:
         )
         return access_token
 
+
     def create_refresh_token(self, email):
         expires = timedelta(minutes=self.REFRESH_TOKEN_EXPIRE_MINUTES)
         return self._create_access_token(data={"sub": email}, expires_delta=expires)
@@ -76,29 +81,28 @@ class JWTManager:
         return jwt.decode(token, self.API_SECRET_KEY, algorithms=[self.API_ALGORITHM])
 
 
-    async def get_current_user_email(self, token: str = Depends(oauth2_scheme)):
+    def get_current_user_email(self, token: str = Depends(oauth2_scheme)):
         if is_token_blacklisted(token):
+            log.warning(f"JWT Token blacklisted: {e}")
             raise CREDENTIALS_EXCEPTION
 
         try:
             payload = self.decode_token(token)
             email: str = payload.get("sub")
             if email is None:
+                log.warning(f"Token decoding error: {e}")
                 raise CREDENTIALS_EXCEPTION
-        except jwt.PyJWTError:
+        except jwt.PyJWTError as e:
+            log.warning(f"JWT Error: {e}")
             raise CREDENTIALS_EXCEPTION
 
         if valid_email_from_db(email):
             return email
 
+        log.warning(f"User email not found: {email}")
         raise CREDENTIALS_EXCEPTION
 
 
     async def get_current_user_token(self, token: str = Depends(oauth2_scheme)):
         _ = self.get_current_user_email(token)
         return token
-
-
-
-
-
