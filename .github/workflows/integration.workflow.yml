@@ -26,17 +26,11 @@ jobs:
         run: |
           docker pull ${{ env.IMAGE }}:latest || true
       - name: Build image
-        env:
-          API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: |
           docker build \
             --cache-from ${{ env.IMAGE }}:latest \
             --tag ${{ env.IMAGE }}:latest \
             --file ./project/Dockerfile.prod \
-            --build-arg API_SECRET_KEY=${API_SECRET_KEY} \
             "./project"
       - name: Push image
         run: |
@@ -59,6 +53,11 @@ jobs:
         run: |
           docker pull ${{ env.IMAGE }}:latest
       - name: Run container
+        env:
+          API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: |
           docker run \
             -d \
@@ -67,6 +66,7 @@ jobs:
             -e ENVIRONMENT=dev \
             -e DATABASE_URL=sqlite://sqlite.db \
             -e DATABASE_TEST_URL=sqlite://sqlite.db \
+            -e API_SECRET_KEY=${API_SECRET_KEY} \
             -p 5003:8765 \
             ${{ env.IMAGE }}:latest
       - name: Pytest
