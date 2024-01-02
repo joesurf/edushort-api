@@ -36,6 +36,7 @@ jobs:
             --cache-from ${{ env.IMAGE }}:latest \
             --tag ${{ env.IMAGE }}:latest \
             --file ./project/Dockerfile.prod \
+            --build-arg API_SECRET_KEY=${API_SECRET_KEY} \
             "./project"
       - name: Push image
         run: |
