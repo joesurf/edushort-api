@@ -7,9 +7,8 @@ from starlette.requests import Request
 from starlette.responses import HTMLResponse, JSONResponse, RedirectResponse
 
 from app.auth.jwt import CREDENTIALS_EXCEPTION, JWTManager
-from app.auth.user_auth import valid_email_from_db
 from app.auth.oauth import oauth
-
+from app.auth.user_auth import valid_email_from_db
 
 log = logging.getLogger("uvicorn")
 
@@ -38,7 +37,7 @@ async def auth(request: Request):
     try:
         access_token = await oauth.google.authorize_access_token(request)
     except OAuthError as e:
-        log.warning(f'OAuth Error: {e}')
+        log.warning(f"OAuth Error: {e}")
         raise CREDENTIALS_EXCEPTION
 
     user = access_token.get("userinfo")
@@ -74,7 +73,10 @@ async def refresh(request: Request):
                     if valid_email_from_db(email):
                         # Create and return token
                         return JSONResponse(
-                            {"result": True, "access_token": jwtmanager.create_token(email)}
+                            {
+                                "result": True,
+                                "access_token": jwtmanager.create_token(email),
+                            }
                         )
     except Exception:
         raise CREDENTIALS_EXCEPTION

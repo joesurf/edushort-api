@@ -3,7 +3,6 @@ import os
 from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
 
-
 # OAuth settings
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID") or None
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET") or None

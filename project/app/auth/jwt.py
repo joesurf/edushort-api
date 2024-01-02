@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 from datetime import datetime, timedelta
 
 import jwt
@@ -8,7 +8,6 @@ from fastapi.security import OAuth2PasswordBearer
 
 from app.auth.jwt_helper import is_token_blacklisted
 from app.auth.user_auth import valid_email_from_db
-
 
 log = logging.getLogger("uvicorn")
 
@@ -28,17 +27,17 @@ class JWTManager:
     def __init__(self):
         self.API_SECRET_KEY = self._get_api_secret_key()
         self.API_ALGORITHM = os.environ.get("API_ALGORITHM") or "HS256"
-        self.API_ACCESS_TOKEN_EXPIRE_MINUTES = self._cast_to_number("API_ACCESS_TOKEN_EXPIRE_MINUTES") or 15
+        self.API_ACCESS_TOKEN_EXPIRE_MINUTES = (
+            self._cast_to_number("API_ACCESS_TOKEN_EXPIRE_MINUTES") or 15
+        )
         self.REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 30
-
 
     def _get_api_secret_key(self):
         API_SECRET_KEY = os.environ.get("API_SECRET_KEY") or None
         if API_SECRET_KEY is None:
             raise BaseException("Missing API_SECRET_KEY env var.")
-        
+
         return API_SECRET_KEY
-    
 
     def _cast_to_number(self, id):
         """Helper to read numbers using var envs"""
@@ -50,7 +49,6 @@ class JWTManager:
                 return None
         return None
 
-
     def _create_access_token(self, *, data: dict, expires_delta: timedelta = None):
         """Create token internal function"""
         to_encode = data.copy()
@@ -59,9 +57,10 @@ class JWTManager:
         else:
             expire = datetime.utcnow() + timedelta(minutes=15)
         to_encode.update({"exp": expire})
-        encoded_jwt = jwt.encode(to_encode, self.API_SECRET_KEY, algorithm=self.API_ALGORITHM)
+        encoded_jwt = jwt.encode(
+            to_encode, self.API_SECRET_KEY, algorithm=self.API_ALGORITHM
+        )
         return encoded_jwt
-
 
     # Create token for an email
     def create_token(self, email):
@@ -71,15 +70,12 @@ class JWTManager:
         )
         return access_token
 
-
     def create_refresh_token(self, email):
         expires = timedelta(minutes=self.REFRESH_TOKEN_EXPIRE_MINUTES)
         return self._create_access_token(data={"sub": email}, expires_delta=expires)
 
-
     def decode_token(self, token):
         return jwt.decode(token, self.API_SECRET_KEY, algorithms=[self.API_ALGORITHM])
-
 
     def get_current_user_email(self, token: str = Depends(oauth2_scheme)):
         if is_token_blacklisted(token):
@@ -101,7 +97,6 @@ class JWTManager:
 
         log.warning(f"User email not found: {email}")
         raise CREDENTIALS_EXCEPTION
-
 
     async def get_current_user_token(self, token: str = Depends(oauth2_scheme)):
         _ = self.get_current_user_email(token)

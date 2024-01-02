@@ -12,7 +12,6 @@ from app.auth.jwt_helper import add_blacklist_token, init_blacklist_file
 from app.auth.router import auth_app
 from app.db import init_db
 
-
 # config
 log = logging.getLogger("uvicorn")
 
