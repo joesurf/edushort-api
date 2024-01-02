@@ -28,7 +28,7 @@ def public(request: Request):
 
 @auth_app.get("/login")
 async def login(request: Request):
-    redirect_uri = "http://localhost:8004/token"  # request.url_for('auth')
+    redirect_uri = request.url_for('auth')
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 
