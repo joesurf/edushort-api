@@ -53,6 +53,11 @@ jobs:
         run: |
           docker pull ${{ env.IMAGE }}:latest
       - name: Run container
+        env:
+          API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: |
           docker run \
             -d \
@@ -61,6 +66,10 @@ jobs:
             -e ENVIRONMENT=dev \
             -e DATABASE_URL=sqlite://sqlite.db \
             -e DATABASE_TEST_URL=sqlite://sqlite.db \
+            -e API_SECRET_KEY=${API_SECRET_KEY} \
+            -e SECRET_KEY=${SECRET_KEY} \
+            -e GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} \
+            -e GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} \
             -p 5003:8765 \
             ${{ env.IMAGE }}:latest
       - name: Pytest
