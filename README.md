@@ -1,20 +1,15 @@
-# ToolFinder: AI-Powered Toolbox for Entrepreneurs
+# EduShort: AI-Powered Whiteboard Animation for Storytelling
 
-![Continuous Integration](https://github.com/joesurf/toolfinder/workflows/Continuous%20Integration/badge.svg)
-![Continuous Deployment](https://github.com/joesurf/toolfinder/workflows/Continuous%20Deployment/badge.svg)
+![Continuous Integration](https://github.com/joesurf/edushort-api/workflows/Continuous%20Integration/badge.svg)
+![Continuous Deployment](https://github.com/joesurf/edushort-api/workflows/Continuous%20Deployment/badge.svg)
 
 
 ## Overview
-For entrepreneurs to find the best tools to solve their problems on a daily basis so that they can focus on business progress, rather than operational or technical work.
-
-Focus on scaling and automation tools, at least the angle.
+For content creators to automatically generate beautiful whiteboard animation for storytelling without the hassle of manually copy and pasting illustrations and recording voiceovers
 
 ### Features
-- [] Users are able to input their problem or challenges
-- [] Users have the option to structure their input for better results
-- [] Users receive a structured response on possible tools, with description, ranked and with comparisons (users, costs, pros and cons) and guides
-- [] Users have to view advertisements or subscribe to use the tool
-- [] Users can view content on how people used a combination of tools to build businesses
+[ ] For users to generate animations from script
+[ ] For users to pay for tokens
 
 
 ### Common Commands
