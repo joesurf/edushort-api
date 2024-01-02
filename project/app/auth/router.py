@@ -1,4 +1,5 @@
 import logging
+import os
 from datetime import datetime
 
 from authlib.integrations.starlette_client import OAuthError
@@ -28,7 +29,9 @@ def public(request: Request):
 
 @auth_app.get("/login")
 async def login(request: Request):
-    redirect_uri = "https://edushort-api.joesurf.io/auth/token"
+    redirect_uri = (
+        os.environ.get("FRONTEND_REDIRECT_URI") or "http://localhost:8004/token"
+    )
     print(redirect_uri)
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
