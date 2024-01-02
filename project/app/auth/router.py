@@ -1,40 +1,19 @@
-import os
+import logging
 from datetime import datetime
 
-from authlib.integrations.starlette_client import OAuth, OAuthError
+from authlib.integrations.starlette_client import OAuthError
 from fastapi import APIRouter
-from starlette.config import Config
 from starlette.requests import Request
 from starlette.responses import HTMLResponse, JSONResponse, RedirectResponse
 
-from app.auth.jwt import (  # isort:skip
-    CREDENTIALS_EXCEPTION,
-    create_refresh_token,
-    create_token,
-    decode_token,
-    valid_email_from_db,
-)
-
-# OAuth settings
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID") or None
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET") or None
-if GOOGLE_CLIENT_ID is None or GOOGLE_CLIENT_SECRET is None:
-    raise BaseException("Missing env variables")
+from app.auth.jwt import CREDENTIALS_EXCEPTION, JWTManager
+from app.auth.user_auth import valid_email_from_db
+from app.auth.oauth import oauth
 
 
-# Set up oauth
-config_data = {
-    "GOOGLE_CLIENT_ID": GOOGLE_CLIENT_ID,
-    "GOOGLE_CLIENT_SECRET": GOOGLE_CLIENT_SECRET,
-}
-starlette_config = Config(environ=config_data)
-oauth = OAuth(starlette_config)
-oauth.register(
-    name="google",
-    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
-    client_kwargs={"scope": "openid email profile"},
-)
+log = logging.getLogger("uvicorn")
 
+jwtmanager = JWTManager()
 
 auth_app = APIRouter()
 
@@ -59,7 +38,7 @@ async def auth(request: Request):
     try:
         access_token = await oauth.google.authorize_access_token(request)
     except OAuthError as e:
-        print(e)
+        log.warning(f'OAuth Error: {e}')
         raise CREDENTIALS_EXCEPTION
 
     user = access_token.get("userinfo")
@@ -71,8 +50,8 @@ async def auth(request: Request):
         return JSONResponse(
             {
                 "result": True,
-                "access_token": create_token(email),
-                "refresh_token": create_refresh_token(email),
+                "access_token": jwtmanager.create_token(email),
+                "refresh_token": jwtmanager.create_refresh_token(email),
             }
         )
 
@@ -87,7 +66,7 @@ async def refresh(request: Request):
             form = await request.json()
             if form.get("grant_type") == "refresh_token":
                 token = form.get("refresh_token")
-                payload = decode_token(token)
+                payload = jwtmanager.decode_token(token)
                 # Check if token is not expired
                 if datetime.utcfromtimestamp(payload.get("exp")) > datetime.utcnow():
                     email = payload.get("sub")
@@ -95,7 +74,7 @@ async def refresh(request: Request):
                     if valid_email_from_db(email):
                         # Create and return token
                         return JSONResponse(
-                            {"result": True, "access_token": create_token(email)}
+                            {"result": True, "access_token": jwtmanager.create_token(email)}
                         )
     except Exception:
         raise CREDENTIALS_EXCEPTION

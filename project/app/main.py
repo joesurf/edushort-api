@@ -7,11 +7,13 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.api.router import api_app
-from app.auth.jwt import CREDENTIALS_EXCEPTION, get_current_user_token
+from app.auth.jwt import CREDENTIALS_EXCEPTION, JWTManager
 from app.auth.jwt_helper import add_blacklist_token, init_blacklist_file
 from app.auth.router import auth_app
 from app.db import init_db
 
+
+# config
 log = logging.getLogger("uvicorn")
 
 SECRET_KEY = os.environ.get("SECRET_KEY") or None
@@ -19,6 +21,10 @@ if SECRET_KEY is None:
     raise "Missing SECRET_KEY"
 
 ALLOWED_HOSTS = ["*"]
+
+
+# JWT Manager
+jwtmanager = JWTManager()
 
 
 def create_application() -> FastAPI:
@@ -139,7 +145,7 @@ async def token(request: Request):
 
 
 @app.get("/logout")
-def logout(token: str = Depends(get_current_user_token)):
+def logout(token: str = Depends(jwtmanager.get_current_user_token)):
     if add_blacklist_token(token):
         return JSONResponse({"result": True})
     raise CREDENTIALS_EXCEPTION
