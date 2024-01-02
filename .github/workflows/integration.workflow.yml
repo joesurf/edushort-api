@@ -26,6 +26,8 @@ jobs:
         run: |
           docker pull ${{ env.IMAGE }}:latest || true
       - name: Build image
+        env:
+          API_SECRET_KEY: ${{ secrets.API_SECRET_KEY }}
         run: |
           docker build \
             --cache-from ${{ env.IMAGE }}:latest \
