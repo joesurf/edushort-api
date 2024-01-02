@@ -1,7 +1,7 @@
 import logging
 import os
 
-from fastapi import Depends, FastAPI, Request
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
@@ -66,81 +66,6 @@ async def shutdown_event():
 @app.get("/")
 async def root():
     return HTMLResponse('<body><a href="/auth/login">Log In</a></body>')
-
-
-@app.get("/token")
-async def token(request: Request):
-    return HTMLResponse(
-        """
-                <script>
-                function send(){
-                    var req = new XMLHttpRequest();
-                    req.onreadystatechange = function() {
-                        if (req.readyState === 4) {
-                            console.log(req.response);
-                            if (req.response["result"] === true) {
-                                window.localStorage.setItem('jwt', req.response["access_token"]);
-                                window.localStorage.setItem('refresh', req.response["refresh_token"]);
-                            }
-                        }
-                    }
-                    req.withCredentials = true;
-                    req.responseType = 'json';
-                    req.open("get", "/auth/token?"+window.location.search.substr(1), true);
-                    req.send("");
-
-                }
-                </script>
-                <button onClick="send()">Get FastAPI JWT Token</button>
-
-                <button onClick='fetch("https://edushort.joesurf.io/api/").then(
-                    (r)=>r.json()).then((msg)=>{console.log(msg)});'>
-                Call Unprotected API
-                </button>
-                <button onClick='fetch("https://edushort.joesurf.io/api/protected").then(
-                    (r)=>r.json()).then((msg)=>{console.log(msg)});'>
-                Call Protected API without JWT
-                </button>
-                <button onClick='fetch("https://edushort.joesurf.io/api/protected",{
-                    headers:{
-                        "Authorization": "Bearer " + window.localStorage.getItem("jwt")
-                    },
-                }).then((r)=>r.json()).then((msg)=>{console.log(msg)});'>
-                Call Protected API wit JWT
-                </button>
-
-                <button onClick='fetch("https://edushort.joesurf.io/logout",{
-                    headers:{
-                        "Authorization": "Bearer " + window.localStorage.getItem("jwt")
-                    },
-                }).then((r)=>r.json()).then((msg)=>{
-                    console.log(msg);
-                    if (msg["result"] === true) {
-                        window.localStorage.removeItem("jwt");
-                    }
-                    });'>
-                Logout
-                </button>
-
-                <button onClick='fetch("https://edushort.joesurf.io/auth/refresh",{
-                    method: "POST",
-                    headers:{
-                        "Authorization": "Bearer " + window.localStorage.getItem("jwt")
-                    },
-                    body:JSON.stringify({
-                        grant_type:\"refresh_token\",
-                        refresh_token:window.localStorage.getItem(\"refresh\")
-                        })
-                }).then((r)=>r.json()).then((msg)=>{
-                    console.log(msg);
-                    if (msg["result"] === true) {
-                        window.localStorage.setItem("jwt", msg["access_token"]);
-                    }
-                    });'>
-                Refresh
-                </button>
-            """
-    )
 
 
 @app.get("/logout")
