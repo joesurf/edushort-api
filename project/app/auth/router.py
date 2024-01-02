@@ -28,7 +28,7 @@ def public(request: Request):
 
 @auth_app.get("/login")
 async def login(request: Request):
-    redirect_uri = "https://edushort-api.joesurf.io/auth/token"  # request.url_for("auth")
+    redirect_uri = "https://edushort-api.joesurf.io/auth/token"
     print(redirect_uri)
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
