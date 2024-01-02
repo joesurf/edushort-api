@@ -93,15 +93,15 @@ async def token(request: Request):
                 </script>
                 <button onClick="send()">Get FastAPI JWT Token</button>
 
-                <button onClick='fetch("http://localhost:8004/api/").then(
+                <button onClick='fetch("https://edushort.joesurf.io/api/").then(
                     (r)=>r.json()).then((msg)=>{console.log(msg)});'>
                 Call Unprotected API
                 </button>
-                <button onClick='fetch("http://localhost:8004/api/protected").then(
+                <button onClick='fetch("https://edushort.joesurf.io/api/protected").then(
                     (r)=>r.json()).then((msg)=>{console.log(msg)});'>
                 Call Protected API without JWT
                 </button>
-                <button onClick='fetch("http://localhost:8004/api/protected",{
+                <button onClick='fetch("https://edushort.joesurf.io/api/protected",{
                     headers:{
                         "Authorization": "Bearer " + window.localStorage.getItem("jwt")
                     },
@@ -109,7 +109,7 @@ async def token(request: Request):
                 Call Protected API wit JWT
                 </button>
 
-                <button onClick='fetch("http://localhost:8004/logout",{
+                <button onClick='fetch("https://edushort.joesurf.io/logout",{
                     headers:{
                         "Authorization": "Bearer " + window.localStorage.getItem("jwt")
                     },
@@ -122,7 +122,7 @@ async def token(request: Request):
                 Logout
                 </button>
 
-                <button onClick='fetch("http://localhost:8004/auth/refresh",{
+                <button onClick='fetch("https://edushort.joesurf.io/auth/refresh",{
                     method: "POST",
                     headers:{
                         "Authorization": "Bearer " + window.localStorage.getItem("jwt")
