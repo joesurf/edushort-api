@@ -22,7 +22,8 @@ Run the containers:
 Apply the migrations: 
 - docker-compose exec web aerich migrate
 - docker-compose exec web aerich upgrade
-
+- heroku run aerich migrate --app edushort
+- heroku run aerich upgrade --app edushort
 
 Run the tests:
 - docker-compose exec web python -m pytest
