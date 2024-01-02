@@ -92,7 +92,7 @@ async def token(request: Request):
                 }
                 </script>
                 <button onClick="send()">Get FastAPI JWT Token</button>
-                
+
                 <button onClick='fetch("http://localhost:8004/api/").then(
                     (r)=>r.json()).then((msg)=>{console.log(msg)});'>
                 Call Unprotected API
@@ -108,7 +108,7 @@ async def token(request: Request):
                 }).then((r)=>r.json()).then((msg)=>{console.log(msg)});'>
                 Call Protected API wit JWT
                 </button>
-                
+
                 <button onClick='fetch("http://localhost:8004/logout",{
                     headers:{
                         "Authorization": "Bearer " + window.localStorage.getItem("jwt")
@@ -121,7 +121,7 @@ async def token(request: Request):
                     });'>
                 Logout
                 </button>
-                        
+
                 <button onClick='fetch("http://localhost:8004/auth/refresh",{
                     method: "POST",
                     headers:{

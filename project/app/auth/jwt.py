@@ -79,14 +79,14 @@ class JWTManager:
 
     def get_current_user_email(self, token: str = Depends(oauth2_scheme)):
         if is_token_blacklisted(token):
-            log.warning(f"JWT Token blacklisted: {e}")
+            log.warning("JWT Token blacklisted")
             raise CREDENTIALS_EXCEPTION
 
         try:
             payload = self.decode_token(token)
             email: str = payload.get("sub")
             if email is None:
-                log.warning(f"Token decoding error: {e}")
+                log.warning("Token decoding error")
                 raise CREDENTIALS_EXCEPTION
         except jwt.PyJWTError as e:
             log.warning(f"JWT Error: {e}")
