@@ -67,6 +67,9 @@ jobs:
             -e DATABASE_URL=sqlite://sqlite.db \
             -e DATABASE_TEST_URL=sqlite://sqlite.db \
             -e API_SECRET_KEY=${API_SECRET_KEY} \
+            -e SECRET_KEY=${SECRET_KEY} \
+            -e GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} \
+            -e GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} \
             -p 5003:8765 \
             ${{ env.IMAGE }}:latest
       - name: Pytest
