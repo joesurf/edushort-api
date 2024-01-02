@@ -13,6 +13,10 @@ services:
       - TESTING=0
       - DATABASE_URL=postgres://postgres:postgres@web-db:5432/web_dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@web-db:5432/web_test
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - SECRET_KEY=${SECRET_KEY}
+      - API_SECRET_KEY=${API_SECRET_KEY}
     depends_on:
       - web-db
 

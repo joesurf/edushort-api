@@ -4,6 +4,7 @@ import pytest
 from starlette.testclient import TestClient
 from tortoise.contrib.fastapi import register_tortoise
 
+from app.auth.jwt import JWTManager
 from app.config import Settings, get_settings
 from app.main import create_application
 
@@ -41,3 +42,10 @@ def test_app_with_db():
         yield test_client
 
     # tear down
+
+
+@pytest.fixture(scope="module")
+def test_jwt():
+    jwtmanager = JWTManager()
+
+    return jwtmanager
