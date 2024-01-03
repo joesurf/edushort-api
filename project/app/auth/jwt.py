@@ -1,5 +1,4 @@
 import logging
-import os
 from datetime import datetime, timedelta
 
 import jwt
@@ -8,6 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from app.auth.jwt_helper import is_token_blacklisted
 from app.auth.user_auth import valid_email_from_db
+from app.config import get_settings
 
 log = logging.getLogger("uvicorn")
 
@@ -25,29 +25,12 @@ CREDENTIALS_EXCEPTION = HTTPException(
 
 class JWTManager:
     def __init__(self):
-        self.API_SECRET_KEY = self._get_api_secret_key()
-        self.API_ALGORITHM = os.environ.get("API_ALGORITHM") or "HS256"
+        self.API_SECRET_KEY = get_settings().api_secret_key
+        self.API_ALGORITHM = get_settings().api_algorithm
         self.API_ACCESS_TOKEN_EXPIRE_MINUTES = (
-            self._cast_to_number("API_ACCESS_TOKEN_EXPIRE_MINUTES") or 15
+            get_settings().api_access_token_expire_minutes
         )
         self.REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 30
-
-    def _get_api_secret_key(self):
-        API_SECRET_KEY = os.environ.get("API_SECRET_KEY") or None
-        if API_SECRET_KEY is None:
-            raise BaseException("Missing API_SECRET_KEY env var.")
-
-        return API_SECRET_KEY
-
-    def _cast_to_number(self, id):
-        """Helper to read numbers using var envs"""
-        temp = os.environ.get(id)
-        if temp is not None:
-            try:
-                return float(temp)
-            except ValueError:
-                return None
-        return None
 
     def _create_access_token(self, *, data: dict, expires_delta: timedelta = None):
         """Create token internal function"""
