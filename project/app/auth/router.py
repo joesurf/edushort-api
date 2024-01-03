@@ -10,6 +10,8 @@ from starlette.responses import HTMLResponse, JSONResponse, RedirectResponse
 from app.auth.jwt import CREDENTIALS_EXCEPTION, JWTManager
 from app.auth.oauth import oauth
 from app.auth.user_auth import valid_email_from_db
+from app.config import get_settings
+
 
 log = logging.getLogger("uvicorn")
 
@@ -29,9 +31,7 @@ def public(request: Request):
 
 @auth_app.get("/login")
 async def login(request: Request):
-    redirect_uri = (
-        os.environ.get("FRONTEND_REDIRECT_URI") or "http://localhost:8004/token"
-    )
+    redirect_uri = get_settings().frontend_redirect_uri
     print(redirect_uri)
     return await oauth.google.authorize_redirect(request, redirect_uri)
 

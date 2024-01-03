@@ -1,7 +1,7 @@
 import logging
 from functools import lru_cache
 
-from pydantic import AnyUrl, BaseSettings
+from pydantic import AnyUrl, SecretStr, SecretBytes, BaseSettings
 
 log = logging.getLogger("uvicorn")
 
@@ -9,7 +9,18 @@ log = logging.getLogger("uvicorn")
 class Settings(BaseSettings):
     environment: str = "dev"
     testing: bool = bool(0)
-    database_url: AnyUrl = None
+    database_url: str
+
+    # oauth
+    google_client_id: str
+    google_client_secret: str
+    frontend_redirect_uri: AnyUrl = "http://localhost:8004/token"
+    secret_key: str
+
+    # jwt
+    api_secret_key: str
+    api_algorithm: str = "HS256"
+    api_access_token_expire_minutes: int = 15
 
 
 @lru_cache
