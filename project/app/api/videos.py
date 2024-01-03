@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 
-
 router = APIRouter()
 
 
@@ -15,7 +14,7 @@ async def get_all_videos():
 
 
 @router.post("/")
-async def get_video():
+async def add_video():
     pass
 
 

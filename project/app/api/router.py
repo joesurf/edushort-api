@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from app.api import ping, tools, videos, users
+from app.api import ping, tools, users, videos
 from app.auth.jwt import JWTManager
 
 api_app = APIRouter()
