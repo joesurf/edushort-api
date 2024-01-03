@@ -12,3 +12,12 @@ class Tool(models.Model):
 
 
 ToolSchema = pydantic_model_creator(Tool)
+
+
+class Video(models.Model):
+    url = fields.TextField()
+    description = fields.TextField()
+    created_at = fields.DatetimeField(auto_now_add=True)
+
+
+VideoSchema = pydantic_model_creator(Video)

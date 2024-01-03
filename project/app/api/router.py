@@ -1,12 +1,13 @@
 from fastapi import APIRouter, Depends
 
-from app.api import ping, tools
+from app.api import ping, tools, videos, users
 from app.auth.jwt import JWTManager
 
 api_app = APIRouter()
 api_app.include_router(ping.router)
 api_app.include_router(tools.router, prefix="/tools", tags=["tools"])
-
+api_app.include_router(videos.router, prefix="/videos", tags=["videos"])
+api_app.include_router(users.router, prefix="/users", tags=["users"])
 
 jwtmanager = JWTManager()
 
