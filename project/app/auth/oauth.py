@@ -3,7 +3,6 @@ from starlette.config import Config
 
 from app.config import get_settings
 
-
 # Set up oauth
 config_data = {
     "GOOGLE_CLIENT_ID": get_settings().google_client_id,

@@ -1,5 +1,4 @@
 import logging
-import os
 from datetime import datetime
 
 from authlib.integrations.starlette_client import OAuthError
@@ -11,7 +10,6 @@ from app.auth.jwt import CREDENTIALS_EXCEPTION, JWTManager
 from app.auth.oauth import oauth
 from app.auth.user_auth import valid_email_from_db
 from app.config import get_settings
-
 
 log = logging.getLogger("uvicorn")
 

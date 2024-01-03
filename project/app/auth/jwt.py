@@ -5,9 +5,9 @@ import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
-from app.config import get_settings
 from app.auth.jwt_helper import is_token_blacklisted
 from app.auth.user_auth import valid_email_from_db
+from app.config import get_settings
 
 log = logging.getLogger("uvicorn")
 
@@ -27,9 +27,10 @@ class JWTManager:
     def __init__(self):
         self.API_SECRET_KEY = get_settings().api_secret_key
         self.API_ALGORITHM = get_settings().api_algorithm
-        self.API_ACCESS_TOKEN_EXPIRE_MINUTES = get_settings().api_access_token_expire_minutes
+        self.API_ACCESS_TOKEN_EXPIRE_MINUTES = (
+            get_settings().api_access_token_expire_minutes
+        )
         self.REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 30
-
 
     def _create_access_token(self, *, data: dict, expires_delta: timedelta = None):
         """Create token internal function"""

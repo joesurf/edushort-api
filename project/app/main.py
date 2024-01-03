@@ -1,16 +1,15 @@
 import logging
-import os
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
 
-from app.config import get_settings
 from app.api.router import api_app
 from app.auth.jwt import CREDENTIALS_EXCEPTION, JWTManager
 from app.auth.jwt_helper import add_blacklist_token, init_blacklist_file
 from app.auth.router import auth_app
+from app.config import get_settings
 from app.db import init_db
 
 # config
@@ -19,7 +18,7 @@ log = logging.getLogger("uvicorn")
 
 ALLOWED_HOSTS = {
     "dev": ["*"],
-    "prod": ["https://edushort.joesurf.io", "https://edushort-api.joesurf.io"]
+    "prod": ["https://edushort.joesurf.io", "https://edushort-api.joesurf.io"],
 }
 
 
@@ -137,7 +136,7 @@ async def token(request: Request):
                 Refresh
                 </button>
             """
-)
+    )
 
 
 @app.get("/logout")
