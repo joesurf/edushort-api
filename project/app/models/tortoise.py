@@ -17,15 +17,15 @@ UserSchema = pydantic_model_creator(User)
 
 class Video(models.Model):
     id = fields.UUIDField(pk=True)
-    url = fields.TextField()
-    title = fields.TextField()
-    description = fields.TextField()
-    script = fields.TextField()
+    url = fields.TextField(default="")
+    title = fields.TextField(default="")
+    description = fields.TextField(default="")
+    script = fields.TextField(default="")
     created_at = fields.DatetimeField(auto_now_add=True)
     author = fields.ForeignKeyField(
         model_name="models.User",
         related_name="Created",
-        on_delete=fields.SET_NULL,
+        on_delete=fields.CASCADE,
         null=True,
     )
 
