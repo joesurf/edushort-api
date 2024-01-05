@@ -35,7 +35,6 @@ async def get_user(id: UUID) -> UserSchema:
 @router.get("/", response_model=List[UserSchema])
 async def get_all_users() -> List[UserSchema]:
     users = await users_crud.get_all()
-
     return users
 
 

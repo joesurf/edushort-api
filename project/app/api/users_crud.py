@@ -1,8 +1,12 @@
 from typing import List, Union
 from uuid import UUID
 
-from app.models.models_pydantic.user_pydantic import UserPayloadSchema
 from app.models.tortoise import User
+
+from app.models.models_pydantic.user_pydantic import (  # isort:skip
+    UserPayloadSchema,
+    UserUpdatePayloadSchema,
+)
 
 
 async def post(payload: UserPayloadSchema) -> UUID:
@@ -30,7 +34,7 @@ async def delete(id: UUID) -> UUID:
     return user
 
 
-async def put(id: UUID, payload: UserPayloadSchema) -> Union[dict, None]:
+async def put(id: UUID, payload: UserUpdatePayloadSchema) -> Union[dict, None]:
     user = await User.filter(id=id).update(credits=payload.credits)
     if user:
         updated_user = await User.filter(id=id).first().values()
