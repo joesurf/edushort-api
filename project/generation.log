@@ -1,0 +1,110 @@
+2024-01-05 20:22:49,064 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-eIZIwtilGeDBTcVOmIa18L2k.png?st=2024-01-05T19%3A22%3A48Z&se=2024-01-05T21%3A22%3A48Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T18%3A56%3A43Z&ske=2024-01-06T18%3A56%3A43Z&sks=b&skv=2021-08-06&sig=Ha8BP7NfGTjmNQ%2B1aEeZgGogRhzAunyVANzthTD5NMU%3D
+2024-01-05 20:24:21,670 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-RzpWZBtshHnxil1SeGvEA5iV.png?st=2024-01-05T19%3A24%3A21Z&se=2024-01-05T21%3A24%3A21Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T19%3A48%3A05Z&ske=2024-01-06T19%3A48%3A05Z&sks=b&skv=2021-08-06&sig=zK4PAYKBurUc75ZxIu7FcxAjG9GFnrOt85BcY5D5xjw%3D
+2024-01-05 20:28:23,554 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-52nnVAScwCTuslCNqzhyiT8n.png?st=2024-01-05T19%3A28%3A23Z&se=2024-01-05T21%3A28%3A23Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T12%3A01%3A10Z&ske=2024-01-06T12%3A01%3A10Z&sks=b&skv=2021-08-06&sig=ki%2BVg3tXYrOrOPkh5f5dq6UB4PP61mFFMBfucWrzsgs%3D
+2024-01-05 20:28:27,260 - app.animator.Animator - ERROR - Error creating animation for folder media/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 177, in create_animation
+    illustration = self._text_to_illustration()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/build/app/animator/Animator.py", line 71, in _text_to_illustration
+    img.save(f'{self.video_path}/__{self.text}__.png')
+  File "/usr/local/lib/python3.11/site-packages/PIL/Image.py", line 2436, in save
+    fp = builtins.open(filename, "w+b")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'media/0/__A blue pikachu__.png'
+2024-01-05 20:32:20,821 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-x8NhdmTAotVb1aw8PX014VEP.png?st=2024-01-05T19%3A32%3A20Z&se=2024-01-05T21%3A32%3A20Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-04T21%3A31%3A48Z&ske=2024-01-05T21%3A31%3A48Z&sks=b&skv=2021-08-06&sig=ZqUo5B5DU2ue3vNvMzUH7DdAYODS373uLJt1jzSRVY8%3D
+2024-01-05 20:32:25,458 - app.animator.Animator - INFO - Caption chunks: ['A blue pikachu']
+2024-01-05 20:32:27,678 - app.animator.Animator - INFO - Generating audio: A blue pikachu
+2024-01-05 20:32:27,682 - app.animator.Animator - ERROR - Error generating audio for folder media/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 144, in _text_to_audio
+    audio_chunk = AudioSegment.from_mp3(f'{self.video_path}/__{caption_chunk}__.mp3')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/audio_segment.py", line 796, in from_mp3
+    return cls.from_file(file, 'mp3', parameters=parameters)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/audio_segment.py", line 651, in from_file
+    file, close_file = _fd_or_path_or_tempfile(file, 'rb', tempfile=False)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/utils.py", line 60, in _fd_or_path_or_tempfile
+    fd = open(fd, mode=mode)
+         ^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'media/0/__A blue pikachu__.mp3'
+2024-01-05 20:32:27,746 - app.animator.Animator - ERROR - Error drawing text for folder media/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 155, in _draw_text_on_image
+    fnt = ImageFont.truetype('Fonts/Arvo-BoldItalic.ttf', 70)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/PIL/ImageFont.py", line 819, in truetype
+    return freetype(font)
+           ^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/PIL/ImageFont.py", line 816, in freetype
+    return FreeTypeFont(font, size, index, encoding, layout_engine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/PIL/ImageFont.py", line 245, in __init__
+    self.font = core.getfont(
+                ^^^^^^^^^^^^^
+OSError: cannot open resource
+2024-01-05 20:32:27,752 - app.animator.Animator - ERROR - Error creating animation for folder media/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 193, in create_animation
+    illustration_with_text.save(f"{self.video_path}/__{caption_chunk}__.png")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'save'
+2024-01-05 20:33:44,873 - app.animator.Animator - INFO - Caption chunks: ['A blue pikachu']
+2024-01-05 20:33:47,114 - app.animator.Animator - INFO - Generating audio: A blue pikachu
+2024-01-05 20:33:47,121 - app.animator.Animator - ERROR - Error generating audio for folder media/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 144, in _text_to_audio
+    audio_chunk = AudioSegment.from_mp3(f'{self.video_path}/__{caption_chunk}__.mp3')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/audio_segment.py", line 796, in from_mp3
+    return cls.from_file(file, 'mp3', parameters=parameters)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/audio_segment.py", line 651, in from_file
+    file, close_file = _fd_or_path_or_tempfile(file, 'rb', tempfile=False)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/utils.py", line 60, in _fd_or_path_or_tempfile
+    fd = open(fd, mode=mode)
+         ^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'media/0/__A blue pikachu__.mp3'
+2024-01-05 20:33:47,307 - app.animator.Animator - INFO - Adding text to illustration: A blue pikachu
+2024-01-05 20:33:48,375 - app.animator.Animator - ERROR - Error creating animation for folder media/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 195, in create_animation
+    caption_image_chunk = ImageClip(f"{self.video_path}/__{caption_chunk}__.png").set_duration(audio_chunk.duration_seconds)
+                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'duration_seconds'
+2024-01-05 20:35:02,409 - app.animator.Animator - INFO - Caption chunks: ['A blue pikachu']
+2024-01-05 20:35:04,918 - app.animator.Animator - INFO - Generating audio: A blue pikachu
+2024-01-05 20:35:04,935 - app.animator.Animator - ERROR - Error generating audio for folder media/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 144, in _text_to_audio
+    audio_chunk = AudioSegment.from_mp3(f'{self.video_path}/__{caption_chunk}__.mp3')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/audio_segment.py", line 796, in from_mp3
+    return cls.from_file(file, 'mp3', parameters=parameters)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/audio_segment.py", line 728, in from_file
+    info = mediainfo_json(orig_file, read_ahead_limit=read_ahead_limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydub/utils.py", line 274, in mediainfo_json
+    res = Popen(command, stdin=stdin_parameter, stdout=PIPE, stderr=PIPE)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/subprocess.py", line 1024, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/local/lib/python3.11/subprocess.py", line 1901, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'ffprobe'
+2024-01-05 20:35:05,121 - app.animator.Animator - INFO - Adding text to illustration: A blue pikachu
+2024-01-05 20:35:06,160 - app.animator.Animator - ERROR - Error creating animation for folder media/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 195, in create_animation
+    caption_image_chunk = ImageClip(f"{self.video_path}/__{caption_chunk}__.png").set_duration(audio_chunk.duration_seconds)
+                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'duration_seconds'
+2024-01-05 20:47:30,834 - app.animator.Animator - INFO - Caption chunks: ['A blue pikachu']
+2024-01-05 20:47:32,603 - app.animator.Animator - INFO - Adding text to illustration: A blue pikachu
+2024-01-05 20:47:37,023 - app.animator.Animator - INFO - Audio Duration: 1.280000
+2024-01-05 20:47:37,033 - app.animator.Animator - INFO - Video Duration: 0.930000
+2024-01-05 20:47:53,338 - app.animator.Animator - INFO - Animation created: A blue pikachu
