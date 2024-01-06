@@ -23,6 +23,9 @@ logger.addHandler(stream_handler)
 
 
 def generate_video_locally(script: str, video_id: str) -> None:
+    if not os.path.exists("media"):
+        os.mkdir("media")
+
     try:
         nltk.data.find("tokenizers/punkt")
     except LookupError:
