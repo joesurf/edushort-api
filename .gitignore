@@ -2,4 +2,4 @@ env/
 
 .env
 
-project/media/
+project/media/*
