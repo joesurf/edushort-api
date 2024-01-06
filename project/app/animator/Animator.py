@@ -1,8 +1,10 @@
-import os
 import logging
-import requests
+import os
 
-from fastapi import HTTPException
+import requests
+from elevenlabs import generate, save, set_api_key
+from PIL import Image, ImageDraw, ImageFont
+from pydub import AudioSegment
 
 from tenacity import (  # isort:skip
     retry,
@@ -11,23 +13,19 @@ from tenacity import (  # isort:skip
 )
 
 from moviepy.editor import (  # isort:skip
-    ImageClip, 
+    ImageClip,
     concatenate_videoclips,
     AudioFileClip,
 )
-from pydub import AudioSegment
-from PIL import Image, ImageDraw, ImageFont
-
-from elevenlabs import generate, set_api_key, save
 
 
 # config logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
-file_handler = logging.FileHandler('generation.log')
+file_handler = logging.FileHandler("generation.log")
 file_handler.setFormatter(formatter)
 
 stream_handler = logging.StreamHandler()
@@ -40,6 +38,7 @@ set_api_key(os.environ.get("ELEVENLABS"))
 
 # TODO: Error with short sentences as illustration is overwritten by text
 
+
 class Animator:
     def __init__(self, OpenAIClient, text, video_path):
         self.OpenAIClient = OpenAIClient
@@ -49,9 +48,10 @@ class Animator:
         if not os.path.exists(self.video_path):
             os.mkdir(self.video_path)
 
-    # @retry(wait=wait_fixed(80), stop=stop_after_attempt(3)) # rate limit by OpenAI at 5 images / min + 20 seconds for caution (generation time)
+    # rate limit by OpenAI at 5 images / min + 20 seconds for caution (generation time)
+    @retry(wait=wait_fixed(80), stop=stop_after_attempt(3))
     def _text_to_illustration(self):
-        if not os.path.exists(f'{self.video_path}/illustration__{self.text}__.png'):
+        if not os.path.exists(f"{self.video_path}/illustration__{self.text}__.png"):
             managed_prompt = f"""
                 Follow this prompt exactly, "flat simple vector illustrations style on WHITE background: {self.text}”.
 
@@ -71,10 +71,9 @@ class Animator:
 
             get_image_response = requests.get(image_url, stream=True)
             img = Image.open(get_image_response.raw)
-            img.save(f'{self.video_path}/illustration__{self.text}__.png')
+            img.save(f"{self.video_path}/illustration__{self.text}__.png")
 
-        return Image.open(f'{self.video_path}/illustration__{self.text}__.png')
-
+        return Image.open(f"{self.video_path}/illustration__{self.text}__.png")
 
     def _get_average_color_image(self, illustration):
         try:
@@ -83,30 +82,30 @@ class Animator:
 
             # split into red, green, blue
             r = h[0:256]
-            g = h[256:256*2]
-            b = h[256*2: 256*3]
+            g = h[256 : 256 * 2]
+            b = h[256 * 2 : 256 * 3]
 
             # perform the weighted average of each channel:
             # the *index* is the channel value, and the *value* is its weight
             return (
-                round(sum( i*w for i, w in enumerate(r) ) / sum(r)),
-                round(sum( i*w for i, w in enumerate(g) ) / sum(g)),
-                round(sum( i*w for i, w in enumerate(b) ) / sum(b))
+                round(sum(i * w for i, w in enumerate(r)) / sum(r)),
+                round(sum(i * w for i, w in enumerate(g)) / sum(g)),
+                round(sum(i * w for i, w in enumerate(b)) / sum(b)),
             )
         except Exception as e:
-            logger.exception("Error getting color for folder %s", self.video_path)
-
+            logger.exception(
+                "Error getting color for folder %s - %s", self.video_path, e
+            )
 
     def _split_text_for_captioning(self):
         try:
             MAX_LENGTH_CAPTION = 20
 
             caption_chunks = []
-            text_chunks = self.text.split(' ')
+            text_chunks = self.text.split(" ")
             current_text = ""
 
             for text_chunk in text_chunks:
-                
                 if len(current_text) == 0:
                     current_text = text_chunk
                     continue
@@ -123,60 +122,68 @@ class Animator:
             logger.info("Caption chunks: %s", caption_chunks)
 
             return caption_chunks
-        
-        except Exception as e:
-            logger.exception("Error splitting captions for folder %s", self.video_path)
 
+        except Exception as e:
+            logger.exception(
+                "Error splitting captions for folder %s - %s", self.video_path, e
+            )
 
     def _text_to_audio(self, caption_chunk):
-        try: 
-            EMPIRICAL_VARIABLE_FOR_TRIMMING_AUDIO = 25 # split audio chunks trimmed for smoother effect
+        try:
+            EMPIRICAL_VARIABLE_FOR_TRIMMING_AUDIO = (
+                25  # split audio chunks trimmed for smoother effect
+            )
 
-            if not os.path.exists(f'{self.video_path}/__{caption_chunk}__.mp3'):
+            if not os.path.exists(f"{self.video_path}/__{caption_chunk}__.mp3"):
                 audio = generate(
-                    text=caption_chunk,
-                    voice="Josh",
-                    model="eleven_multilingual_v2"
+                    text=caption_chunk, voice="Josh", model="eleven_multilingual_v2"
                 )
 
                 logger.info("Generating audio: %s", caption_chunk)
 
                 # saving audio file from ElevenLabs to import into pydub format
-                save(audio, f'{self.video_path}/__{caption_chunk}__.mp3')
+                save(audio, f"{self.video_path}/__{caption_chunk}__.mp3")
 
-            audio_chunk = AudioSegment.from_mp3(f'{self.video_path}/__{caption_chunk}__.mp3')
-            audio_chunk_trimmed = audio_chunk[0:audio_chunk.duration_seconds * 1000 - len(caption_chunk) * EMPIRICAL_VARIABLE_FOR_TRIMMING_AUDIO] 
+            audio_chunk = AudioSegment.from_mp3(
+                f"{self.video_path}/__{caption_chunk}__.mp3"
+            )
+            audio_chunk_trimmed = audio_chunk[
+                0 : audio_chunk.duration_seconds * 1000
+                - len(caption_chunk) * EMPIRICAL_VARIABLE_FOR_TRIMMING_AUDIO
+            ]
 
             return audio_chunk_trimmed
-        
-        except Exception as e:
-            logger.exception("Error generating audio for folder %s", self.video_path)
 
+        except Exception as e:
+            logger.exception(
+                "Error generating audio for folder %s - %s", self.video_path, e
+            )
 
     def _draw_text_on_image(self, img, text, text_color):
-        try: 
-            fnt = ImageFont.truetype('Fonts/Arvo-BoldItalic.ttf', 70)
+        try:
+            fnt = ImageFont.truetype("Fonts/Arvo-BoldItalic.ttf", 70)
 
             draw = ImageDraw.Draw(img)
             draw.text(
-                (540,400), 
-                text, 
-                font=fnt, 
-                anchor="ms", 
-                fill=text_color, 
-                stroke_width=5, 
-                stroke_fill="white"
+                (540, 400),
+                text,
+                font=fnt,
+                anchor="ms",
+                fill=text_color,
+                stroke_width=5,
+                stroke_fill="white",
             )
             logger.info("Adding text to illustration: %s", text)
 
             return img
-        
-        except Exception as e:
-            logger.exception("Error drawing text for folder %s", self.video_path)
 
+        except Exception as e:
+            logger.exception(
+                "Error drawing text for folder %s - %s", self.video_path, e
+            )
 
     def create_animation(self):
-        try: 
+        try:
             illustration = self._text_to_illustration()
             average_image_color = self._get_average_color_image(illustration)
 
@@ -185,37 +192,43 @@ class Animator:
             caption_image_chunks = []
 
             for caption_chunk in caption_chunks:
-
                 audio_chunk = self._text_to_audio(caption_chunk)
                 audio_chunks.append(audio_chunk)
 
-                image_canvas = Image.new(mode = "RGB", size = (1080,1920), color = "white")
+                image_canvas = Image.new(mode="RGB", size=(1080, 1920), color="white")
                 image_canvas.paste(illustration, (30, 450))
 
-                illustration_with_text = self._draw_text_on_image(image_canvas, caption_chunk, average_image_color)
-                illustration_with_text.save(f"{self.video_path}/__{caption_chunk}__.png")
+                illustration_with_text = self._draw_text_on_image(
+                    image_canvas, caption_chunk, average_image_color
+                )
+                illustration_with_text.save(
+                    f"{self.video_path}/__{caption_chunk}__.png"
+                )
 
-                caption_image_chunk = ImageClip(f"{self.video_path}/__{caption_chunk}__.png").set_duration(audio_chunk.duration_seconds)
+                caption_image_chunk = ImageClip(
+                    f"{self.video_path}/__{caption_chunk}__.png"
+                ).set_duration(audio_chunk.duration_seconds)
                 caption_image_chunks.append(caption_image_chunk)
 
+            self._text_to_audio(
+                self.text
+            )  # full sentence audio used for smoother effect
 
-            self._text_to_audio(self.text) # full sentence audio used for smoother effect
-            
             # moviepy
             audioclips = AudioFileClip(f"{self.video_path}/__{self.text}__.mp3")
             videoclips = concatenate_videoclips(caption_image_chunks, method="compose")
-            
+
             logger.info("Audio Duration: %f", audioclips.duration)
             logger.info("Video Duration: %f", videoclips.duration)
 
             audiovisual = videoclips.set_audio(audioclips)
             audiovisual.write_videofile(
-                f"{self.video_path}/__{self.text}__.mp4", 
-                audio_codec='aac',
-                fps=24
+                f"{self.video_path}/__{self.text}__.mp4", audio_codec="aac", fps=24
             )
 
             logger.info("Animation created: %s", self.text)
 
         except Exception as e:
-            logger.exception("Error creating animation for folder %s", self.video_path)
+            logger.exception(
+                "Error creating animation for folder %s - %s", self.video_path, e
+            )

@@ -1,19 +1,18 @@
-import time
-import os
 import logging
+import os
+import time
 
 from openai import OpenAI
 
 from app.animator.Generator import Generator
 
-
 # config logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
-file_handler = logging.FileHandler('main.log')
+file_handler = logging.FileHandler("main.log")
 file_handler.setFormatter(formatter)
 
 stream_handler = logging.StreamHandler()
@@ -26,7 +25,6 @@ logger.addHandler(stream_handler)
 # TODO: Upload video - input [video file] output [boolean success]
 
 
-
 def generate_video_locally(script: str, video_id: str) -> None:
     video_path = f"media/{video_id}.mp4"
 
@@ -35,9 +33,7 @@ def generate_video_locally(script: str, video_id: str) -> None:
         pst = time.process_time()
 
         Generator(
-            OpenAIClient=OpenAI(),
-            script=script,
-            video_id=video_id
+            OpenAIClient=OpenAI(), script=script, video_id=video_id
         ).create_animation_from_script()
 
         et = time.time()

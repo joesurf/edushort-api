@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 
 from app.api import videos_crud
 from app.api.videos_helper import generate_video_from_script
@@ -62,15 +62,20 @@ async def delete_video(id: UUID) -> VideoResponseSchema:
     return video
 
 
-# higher order routes
 @router.post("/{id}/", response_model=VideoFullResponseSchema, status_code=201)
-async def generate_video(id: UUID) -> VideoFullResponseSchema:
+async def generate_video(
+    id: UUID, background_tasks: BackgroundTasks
+) -> VideoFullResponseSchema:
     video = await videos_crud.get(id)
 
     if not video["title"] or not video["script"]:
         raise HTTPException(status_code=404, detail="Missing fields [title, script]")
 
-    video_url = await generate_video_from_script(id, video["script"])
+    background_tasks.add_task(generate_video_from_script, id, video["script"])
 
-    video = await videos_crud.put_link(id, {"url": video_url})
+    video = await videos_crud.put_link(
+        id,
+        {"url": f"https://s3.amazonaws.com/edushort.joesurf.io/media/videos/{id}.mp4"},
+    )
+
     return video

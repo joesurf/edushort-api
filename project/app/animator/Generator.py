@@ -1,23 +1,21 @@
+import concurrent
+import logging
 import os
 import shutil
-import logging
-import concurrent
 
 from moviepy.editor import VideoFileClip, concatenate_videoclips
-
 from openai import OpenAI
 
 from app.animator.Animator import Animator
 from app.animator.helper import upload_video_to_cloud
 
-
 # config logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
-file_handler = logging.FileHandler('generation.log')
+file_handler = logging.FileHandler("generation.log")
 file_handler.setFormatter(formatter)
 
 stream_handler = logging.StreamHandler()
@@ -36,7 +34,9 @@ def create_animation_from_sentence(idx_and_text_and_folder):
     text_stripped = text.strip()
 
     if not os.path.exists(f"{video_path}/{idx}/__{text_stripped}__.mp4"):
-        Animator(OpenAI(), text_stripped, video_path=f"{video_path}/{idx}").create_animation()
+        Animator(
+            OpenAI(), text_stripped, video_path=f"{video_path}/{idx}"
+        ).create_animation()
 
     return f"{video_path}/{idx}/__{text_stripped}__.mp4"
 
@@ -53,24 +53,22 @@ class Generator:
         if not os.path.exists(self.video_path):
             os.mkdir(self.video_path)
 
-
     def _clear(self):
         if os.path.exists(self.video_path):
             shutil.rmtree(self.video_path)
 
             logger.info("%s - Deleting files...", self.video_id)
 
-
     def _split_text_into_sentences(self, script):
         # TODO: Add tests for this
-        return ["A pikachu appeared in the wild.", "It is eating an apple from a tree."]
-
+        return ["It is eating an apple from a tree."]
 
     def _update_task_progress(self, future):
         self.progress += 1
 
-        logger.info("Video generation progress: %f", self.progress/len(self.sentences)) 
-
+        logger.info(
+            "Video generation progress: %f", self.progress / len(self.sentences)
+        )
 
     def create_animation_from_script(self, keep_files=False):
         logger.info("%s - Starting animation...", self.video_id)
@@ -78,26 +76,33 @@ class Generator:
         videoclips = []
 
         try:
-            inputs = [list(tup)+[self.video_path] for tup in enumerate(self.sentences)]
+            inputs = [
+                list(tup) + [self.video_path] for tup in enumerate(self.sentences)
+            ]
 
             with concurrent.futures.ProcessPoolExecutor() as executor:
-                futures = [executor.submit(create_animation_from_sentence, idx_and_text_and_folder) for idx_and_text_and_folder in inputs]
+                futures = [
+                    executor.submit(
+                        create_animation_from_sentence, idx_and_text_and_folder
+                    )
+                    for idx_and_text_and_folder in inputs
+                ]
 
                 for future in futures:
                     future.add_done_callback(self._update_task_progress)
 
                 videoclip_names = [future.result() for future in futures]
-                videoclips = [VideoFileClip(videoclip_name) for videoclip_name in videoclip_names]
-            
+                videoclips = [
+                    VideoFileClip(videoclip_name) for videoclip_name in videoclip_names
+                ]
+
         except Exception as e:
             logger.exception("%s - Error parallel processing - %s", self.video_id, e)
 
         try:
             composed_videoclip = concatenate_videoclips(videoclips)
             composed_videoclip.write_videofile(
-                f"{self.media_folder}/{self.video_id}.mp4", 
-                audio_codec='aac',
-                fps=24
+                f"{self.media_folder}/{self.video_id}.mp4", audio_codec="aac", fps=24
             )
 
             if not keep_files:
