@@ -1,0 +1,4 @@
+2024-01-06 08:04:18,421 - __main__ - INFO - Upload to S3 successful
+2024-01-06 08:25:19,145 - app.animator.helper - INFO - Upload to S3 successful
+2024-01-06 08:38:53,060 - app.animator.helper - INFO - Upload to S3 successful
+2024-01-06 08:38:53,063 - app.animator.helper - INFO - a7ded6a3-45fb-45a0-956d-fecb642cc473 - Deleting video locally...

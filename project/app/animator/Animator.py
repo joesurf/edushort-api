@@ -46,10 +46,12 @@ class Animator:
         self.text = text
         self.video_path = video_path
 
+        if not os.path.exists(self.video_path):
+            os.mkdir(self.video_path)
 
     # @retry(wait=wait_fixed(80), stop=stop_after_attempt(3)) # rate limit by OpenAI at 5 images / min + 20 seconds for caution (generation time)
     def _text_to_illustration(self):
-        if not os.path.exists(f'{self.video_path}/__{self.text}__.png'):
+        if not os.path.exists(f'{self.video_path}/illustration__{self.text}__.png'):
             managed_prompt = f"""
                 Follow this prompt exactly, "flat simple vector illustrations style on WHITE background: {self.text}”.
 
@@ -69,9 +71,9 @@ class Animator:
 
             get_image_response = requests.get(image_url, stream=True)
             img = Image.open(get_image_response.raw)
-            img.save(f'{self.video_path}/__{self.text}__.png')
+            img.save(f'{self.video_path}/illustration__{self.text}__.png')
 
-        return Image.open(f'{self.video_path}/__{self.text}__.png')
+        return Image.open(f'{self.video_path}/illustration__{self.text}__.png')
 
 
     def _get_average_color_image(self, illustration):

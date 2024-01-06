@@ -70,7 +70,7 @@ async def generate_video(id: UUID) -> VideoFullResponseSchema:
     if not video["title"] or not video["script"]:
         raise HTTPException(status_code=404, detail="Missing fields [title, script]")
 
-    video_url = await generate_video_from_script(video["script"])
+    video_url = await generate_video_from_script(id, video["script"])
 
     video = await videos_crud.put_link(id, {"url": video_url})
     return video

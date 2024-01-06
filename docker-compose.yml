@@ -20,6 +20,8 @@ services:
       - SENDGRID_API_KEY=${SENDGRID_API_KEY}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - ELEVENLABS=${ELEVENLABS}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
     depends_on:
       - web-db
 

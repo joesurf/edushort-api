@@ -108,3 +108,106 @@ AttributeError: 'NoneType' object has no attribute 'duration_seconds'
 2024-01-05 20:47:37,023 - app.animator.Animator - INFO - Audio Duration: 1.280000
 2024-01-05 20:47:37,033 - app.animator.Animator - INFO - Video Duration: 0.930000
 2024-01-05 20:47:53,338 - app.animator.Animator - INFO - Animation created: A blue pikachu
+2024-01-06 05:29:19,118 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb5 - Starting animation...
+2024-01-06 05:29:27,493 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-SYrEkPZ2DeaKvqWiCRr5k9g2.png?st=2024-01-06T04%3A29%3A27Z&se=2024-01-06T06%3A29%3A27Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T06%3A54%3A08Z&ske=2024-01-06T06%3A54%3A08Z&sks=b&skv=2021-08-06&sig=m2Q9%2BC6ibNCknCtm4XOI%2B47ACUhSNDH2ukAVRbqgOkk%3D
+2024-01-06 05:29:28,439 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-GF7YlYYKcUibaEQOK6nABRiR.png?st=2024-01-06T04%3A29%3A28Z&se=2024-01-06T06%3A29%3A28Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T22%3A28%3A57Z&ske=2024-01-06T22%3A28%3A57Z&sks=b&skv=2021-08-06&sig=nst5SMwynAgIjg6OEq353QkXvat7H41G3DHZDSLfBTc%3D
+2024-01-06 05:29:31,234 - app.animator.Animator - ERROR - Error creating animation for folder media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb5/1
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 178, in create_animation
+    illustration = self._text_to_illustration()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/build/app/animator/Animator.py", line 72, in _text_to_illustration
+    img.save(f'{self.video_path}/illustration__{self.text}__.png')
+  File "/usr/local/lib/python3.11/site-packages/PIL/Image.py", line 2436, in save
+    fp = builtins.open(filename, "w+b")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb5/1/illustration__It is eating an apple from a tree.__.png'
+2024-01-06 05:29:31,312 - app.animator.Generator - INFO - Video generation progress: 0.500000
+2024-01-06 05:29:31,983 - app.animator.Animator - ERROR - Error creating animation for folder media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb5/0
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 178, in create_animation
+    illustration = self._text_to_illustration()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/build/app/animator/Animator.py", line 72, in _text_to_illustration
+    img.save(f'{self.video_path}/illustration__{self.text}__.png')
+  File "/usr/local/lib/python3.11/site-packages/PIL/Image.py", line 2436, in save
+    fp = builtins.open(filename, "w+b")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb5/0/illustration__A pikachu appeared in the wild.__.png'
+2024-01-06 05:29:32,023 - app.animator.Generator - INFO - Video generation progress: 1.000000
+2024-01-06 05:29:32,327 - app.animator.Generator - ERROR - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb5 - Error parallel processing - MoviePy error: the file media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb5/0/__A pikachu appeared in the wild.__.mp4 could not be found!
+Please check that you entered the correct path.
+Traceback (most recent call last):
+  File "/build/app/animator/Generator.py", line 86, in create_animation_from_script
+    videoclips = [VideoFileClip(videoclip_name) for videoclip_name in videoclip_names]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/build/app/animator/Generator.py", line 86, in <listcomp>
+    videoclips = [VideoFileClip(videoclip_name) for videoclip_name in videoclip_names]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/moviepy/video/io/VideoFileClip.py", line 88, in __init__
+    self.reader = FFMPEG_VideoReader(filename, pix_fmt=pix_fmt,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/moviepy/video/io/ffmpeg_reader.py", line 35, in __init__
+    infos = ffmpeg_parse_infos(filename, print_infos, check_duration,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/moviepy/video/io/ffmpeg_reader.py", line 270, in ffmpeg_parse_infos
+    raise IOError(("MoviePy error: the file %s could not be found!\n"
+OSError: MoviePy error: the file media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb5/0/__A pikachu appeared in the wild.__.mp4 could not be found!
+Please check that you entered the correct path.
+2024-01-06 05:29:32,359 - app.animator.Generator - ERROR - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb5 - Error creating video - max() arg is an empty sequence
+Traceback (most recent call last):
+  File "/build/app/animator/Generator.py", line 92, in create_animation_from_script
+    composed_videoclip = concatenate_videoclips(videoclips)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/moviepy/video/compositing/concatenate.py", line 75, in concatenate_videoclips
+    w = max(r[0] for r in sizes)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: max() arg is an empty sequence
+2024-01-06 06:09:22,915 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb5 - Starting animation...
+2024-01-06 06:09:33,143 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-Sl5tmQuZZW9OmUDjMp4ryKAW.png?st=2024-01-06T05%3A09%3A32Z&se=2024-01-06T07%3A09%3A32Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T17%3A07%3A00Z&ske=2024-01-06T17%3A07%3A00Z&sks=b&skv=2021-08-06&sig=od6KZmLysHXsfELWYn9K7yTNZu3QgGncRBcMzmiGaN0%3D
+2024-01-06 06:09:33,349 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-xpJ1d9sS9AagjsjUzfmq7GMx.png?st=2024-01-06T05%3A09%3A33Z&se=2024-01-06T07%3A09%3A33Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T21%3A02%3A06Z&ske=2024-01-06T21%3A02%3A06Z&sks=b&skv=2021-08-06&sig=ks2zK58y39POhye8//whUr9Il0PfuHhi3CesM8NwayI%3D
+2024-01-06 06:09:37,358 - app.animator.Animator - INFO - Caption chunks: ['A pikachu appeared in', 'the wild.']
+2024-01-06 06:09:37,560 - app.animator.Animator - INFO - Caption chunks: ['It is eating an apple', 'from a tree.']
+2024-01-06 06:09:39,668 - app.animator.Animator - INFO - Generating audio: A pikachu appeared in
+2024-01-06 06:09:39,702 - app.animator.Animator - INFO - Generating audio: It is eating an apple
+2024-01-06 06:09:41,646 - app.animator.Animator - INFO - Adding text to illustration: It is eating an apple
+2024-01-06 06:09:41,651 - app.animator.Animator - INFO - Adding text to illustration: A pikachu appeared in
+2024-01-06 06:09:44,686 - app.animator.Animator - INFO - Generating audio: the wild.
+2024-01-06 06:09:44,841 - app.animator.Animator - INFO - Generating audio: from a tree.
+2024-01-06 06:09:46,467 - app.animator.Animator - INFO - Adding text to illustration: the wild.
+2024-01-06 06:09:46,588 - app.animator.Animator - INFO - Adding text to illustration: from a tree.
+2024-01-06 06:09:49,828 - app.animator.Animator - INFO - Generating audio: A pikachu appeared in the wild.
+2024-01-06 06:09:50,336 - app.animator.Animator - INFO - Generating audio: It is eating an apple from a tree.
+2024-01-06 06:09:52,271 - app.animator.Animator - INFO - Audio Duration: 1.700000
+2024-01-06 06:09:52,275 - app.animator.Animator - INFO - Video Duration: 1.392018
+2024-01-06 06:09:52,985 - app.animator.Animator - INFO - Audio Duration: 1.800000
+2024-01-06 06:09:53,035 - app.animator.Animator - INFO - Video Duration: 1.473764
+2024-01-06 06:10:14,151 - app.animator.Animator - INFO - Animation created: A pikachu appeared in the wild.
+2024-01-06 06:10:14,240 - app.animator.Generator - INFO - Video generation progress: 0.500000
+2024-01-06 06:10:18,254 - app.animator.Animator - INFO - Animation created: It is eating an apple from a tree.
+2024-01-06 06:10:18,275 - app.animator.Generator - INFO - Video generation progress: 1.000000
+2024-01-06 06:10:57,711 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb5 - Deleting files...
+2024-01-06 08:36:56,346 - app.animator.Generator - INFO - a7ded6a3-45fb-45a0-956d-fecb642cc473 - Starting animation...
+2024-01-06 08:37:22,169 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-6L2y0UYtiCXcRnPaIoWPeMgv.png?st=2024-01-06T07%3A37%3A21Z&se=2024-01-06T09%3A37%3A21Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T18%3A19%3A06Z&ske=2024-01-06T18%3A19%3A06Z&sks=b&skv=2021-08-06&sig=qPmi8U1XX3qu5fVNmmJTItSjO1dmGA3kNXoEEyXxDyU%3D
+2024-01-06 08:37:24,158 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-HTI4JYWI94rTn5NxzISVAL5J.png?st=2024-01-06T07%3A37%3A23Z&se=2024-01-06T09%3A37%3A23Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-05T15%3A40%3A11Z&ske=2024-01-06T15%3A40%3A11Z&sks=b&skv=2021-08-06&sig=84p08wdbSrJOHm36af23l6ocOuenXb9q3sqGrRxs/%2Bo%3D
+2024-01-06 08:37:26,161 - app.animator.Animator - INFO - Caption chunks: ['It is eating an apple', 'from a tree.']
+2024-01-06 08:37:28,578 - app.animator.Animator - INFO - Generating audio: It is eating an apple
+2024-01-06 08:37:28,741 - app.animator.Animator - INFO - Caption chunks: ['A pikachu appeared in', 'the wild.']
+2024-01-06 08:37:30,588 - app.animator.Animator - INFO - Adding text to illustration: It is eating an apple
+2024-01-06 08:37:30,973 - app.animator.Animator - INFO - Generating audio: A pikachu appeared in
+2024-01-06 08:37:32,646 - app.animator.Animator - INFO - Adding text to illustration: A pikachu appeared in
+2024-01-06 08:37:33,762 - app.animator.Animator - INFO - Generating audio: from a tree.
+2024-01-06 08:37:35,345 - app.animator.Animator - INFO - Adding text to illustration: from a tree.
+2024-01-06 08:37:35,984 - app.animator.Animator - INFO - Generating audio: the wild.
+2024-01-06 08:37:37,553 - app.animator.Animator - INFO - Adding text to illustration: the wild.
+2024-01-06 08:37:38,854 - app.animator.Animator - INFO - Generating audio: It is eating an apple from a tree.
+2024-01-06 08:37:41,066 - app.animator.Animator - INFO - Audio Duration: 1.910000
+2024-01-06 08:37:41,068 - app.animator.Animator - INFO - Video Duration: 1.473741
+2024-01-06 08:37:41,090 - app.animator.Animator - INFO - Generating audio: A pikachu appeared in the wild.
+2024-01-06 08:37:43,512 - app.animator.Animator - INFO - Audio Duration: 1.850000
+2024-01-06 08:37:43,516 - app.animator.Animator - INFO - Video Duration: 1.705488
+2024-01-06 08:38:01,237 - app.animator.Animator - INFO - Animation created: It is eating an apple from a tree.
+2024-01-06 08:38:01,253 - app.animator.Generator - INFO - Video generation progress: 0.500000
+2024-01-06 08:38:07,138 - app.animator.Animator - INFO - Animation created: A pikachu appeared in the wild.
+2024-01-06 08:38:07,146 - app.animator.Generator - INFO - Video generation progress: 1.000000
+2024-01-06 08:38:43,150 - app.animator.Generator - INFO - a7ded6a3-45fb-45a0-956d-fecb642cc473 - Deleting files...
