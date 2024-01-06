@@ -2,6 +2,7 @@ import logging
 import os
 import time
 
+import nltk
 from openai import OpenAI
 
 from app.animator.Generator import Generator
@@ -20,12 +21,13 @@ stream_handler = logging.StreamHandler()
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
 
-# Separate functions
-# TODO: Generate video - input [script, id] output [video file] temp [media]
-# TODO: Upload video - input [video file] output [boolean success]
-
 
 def generate_video_locally(script: str, video_id: str) -> None:
+    try:
+        nltk.data.find("tokenizers/punkt")
+    except LookupError:
+        nltk.download("punkt")
+
     video_path = f"media/{video_id}.mp4"
 
     if not os.path.exists(video_path):

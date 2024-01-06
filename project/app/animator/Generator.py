@@ -3,6 +3,7 @@ import logging
 import os
 import shutil
 
+import nltk
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 from openai import OpenAI
 
@@ -60,8 +61,7 @@ class Generator:
             logger.info("%s - Deleting files...", self.video_id)
 
     def _split_text_into_sentences(self, script):
-        # TODO: Add tests for this
-        return ["It is eating an apple from a tree."]
+        return nltk.sent_tokenize(script)
 
     def _update_task_progress(self, future):
         self.progress += 1

@@ -36,8 +36,6 @@ logger.addHandler(stream_handler)
 
 set_api_key(os.environ.get("ELEVENLABS"))
 
-# TODO: Error with short sentences as illustration is overwritten by text
-
 
 class Animator:
     def __init__(self, OpenAIClient, text, video_path):
@@ -82,8 +80,8 @@ class Animator:
 
             # split into red, green, blue
             r = h[0:256]
-            g = h[256 : 256 * 2]
-            b = h[256 * 2 : 256 * 3]
+            g = h[256 : 256 * 2]  # noqa: E203
+            b = h[256 * 2 : 256 * 3]  # noqa: E203
 
             # perform the weighted average of each channel:
             # the *index* is the channel value, and the *value* is its weight
@@ -148,7 +146,7 @@ class Animator:
                 f"{self.video_path}/__{caption_chunk}__.mp3"
             )
             audio_chunk_trimmed = audio_chunk[
-                0 : audio_chunk.duration_seconds * 1000
+                0 : audio_chunk.duration_seconds * 1000  # noqa: E203
                 - len(caption_chunk) * EMPIRICAL_VARIABLE_FOR_TRIMMING_AUDIO
             ]
 
