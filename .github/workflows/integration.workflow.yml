@@ -58,6 +58,11 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ELEVENLABS: ${{ secrets.ELEVENLABS }}
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
         run: |
           docker run \
             -d \
@@ -70,6 +75,11 @@ jobs:
             -e SECRET_KEY=${SECRET_KEY} \
             -e GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} \
             -e GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} \
+            -e SENDGRID_API_KEY=${SENDGRID_API_KEY} \
+            -e OPENAI_API_KEY=${OPENAI_API_KEY} \
+            -e ELEVENLABS=${ELEVENLABS} \
+            -e AWS_ACCESS_KEY=${AWS_ACCESS_KEY} \
+            -e AWS_SECRET_KEY=${AWS_SECRET_KEY} \
             -p 5003:8765 \
             ${{ env.IMAGE }}:latest
       - name: Pytest
