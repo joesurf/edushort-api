@@ -19,11 +19,18 @@ class VideoGenerationPayloadSchema(BaseModel):
     url: str
 
 
+class VideoProgressPayloadSchema(BaseModel):
+    progress: float
+
+
 class VideoResponseSchema(VideoPayloadSchema):
     id: UUID
 
 
 class VideoFullResponseSchema(
-    VideoUpdatePayloadSchema, VideoGenerationPayloadSchema, VideoResponseSchema
+    VideoUpdatePayloadSchema,
+    VideoGenerationPayloadSchema,
+    VideoResponseSchema,
+    VideoProgressPayloadSchema,
 ):
     created_at: datetime

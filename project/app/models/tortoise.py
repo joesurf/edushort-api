@@ -28,6 +28,7 @@ class Video(models.Model):
         on_delete=fields.CASCADE,
         null=True,
     )
+    progress = fields.FloatField(default=0)
 
     def __str__(self):
         return self.id
