@@ -28,6 +28,9 @@ class VideoResponseSchema(VideoPayloadSchema):
 
 
 class VideoFullResponseSchema(
-    VideoUpdatePayloadSchema, VideoGenerationPayloadSchema, VideoResponseSchema, VideoProgressPayloadSchema
+    VideoUpdatePayloadSchema,
+    VideoGenerationPayloadSchema,
+    VideoResponseSchema,
+    VideoProgressPayloadSchema,
 ):
     created_at: datetime
