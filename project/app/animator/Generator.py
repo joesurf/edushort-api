@@ -63,7 +63,7 @@ class Generator:
     def _split_text_into_sentences(self, script):
         return nltk.sent_tokenize(script)
 
-    def _update_task_progress(self, future):
+    async def _update_task_progress(self, future):
         self.progress += 1
 
         logger.info(
