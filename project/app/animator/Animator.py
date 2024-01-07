@@ -1,6 +1,7 @@
 import logging
 import os
 
+import ffprobe  # noqa: F401
 import requests
 from elevenlabs import generate, save, set_api_key
 from PIL import Image, ImageDraw, ImageFont
