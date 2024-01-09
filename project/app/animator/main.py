@@ -23,6 +23,7 @@ logger.addHandler(stream_handler)
 
 
 def generate_video_locally(script: str, video_id: str) -> None:
+    # TODO: Add more specific exception handling for different types of errors
     if not os.path.exists("media"):
         os.mkdir("media")
 
@@ -52,5 +53,9 @@ def generate_video_locally(script: str, video_id: str) -> None:
 
 
 if __name__ == "__main__":
-    id = "7ca2688a-264d-4c6e-9766-cc48ddd3ffb5"
-    generate_video_locally("This is a pikachu fighting.", id)
+    id = "7ca2688a-264d-4c6e-9766-cc48ddd3ffb3"
+    generate_video_locally(
+        "A man founds out that his wallet was stolen. He ran around the city to find the thief. \
+            But he was too slow and failed to find it.",
+        id,
+    )

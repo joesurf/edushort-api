@@ -30,13 +30,16 @@ def create_animation_from_sentence(idx_and_text_and_folder):
     Function to support parallel processing
     """
 
-    idx, text, video_path = idx_and_text_and_folder
+    idx, text, video_path, avatar_prompt = idx_and_text_and_folder
 
     text_stripped = text.strip()
 
     if not os.path.exists(f"{video_path}/{idx}/__{text_stripped}__.mp4"):
         Animator(
-            OpenAI(), text_stripped, video_path=f"{video_path}/{idx}"
+            OpenAIClient=OpenAI(),
+            text=text_stripped,
+            video_path=f"{video_path}/{idx}",
+            avatar_prompt=avatar_prompt,
         ).create_animation()
 
     return f"{video_path}/{idx}/__{text_stripped}__.mp4"
@@ -46,6 +49,7 @@ class Generator:
     def __init__(self, OpenAIClient, script, video_id):
         self.media_folder = "media"
         self.video_path = f"{self.media_folder}/{video_id}"
+        self.script = script
         self.sentences = self._split_text_into_sentences(script)
         self.OpenAIClient = OpenAIClient
         self.video_id = video_id
@@ -63,24 +67,52 @@ class Generator:
     def _split_text_into_sentences(self, script):
         return nltk.sent_tokenize(script)
 
-    async def _update_task_progress(self, future):
+    def _update_task_progress(self, future):
         self.progress += 1
 
         logger.info(
             "Video generation progress: %f", self.progress / len(self.sentences)
         )
 
+    def create_avatar_from_script(self):
+        # TODO: Add exception handling
+        response = OpenAI().chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are storybook writer familiar with writing \
+                        description of characters from a storyline.",
+                },
+                {
+                    "role": "user",
+                    "content": f"Write a character description with details like \
+                        age, hair color, eye color, race, clothing color, gender \
+                            for the following story, limited to twenty words: {self.script}",
+                },
+            ],
+        )
+
+        avatar_prompt = response.choices[0].message.content
+
+        logger.info("Avatar created: %s", avatar_prompt)
+
+        return avatar_prompt
+
     def create_animation_from_script(self, keep_files=False):
         logger.info("%s - Starting animation...", self.video_id)
 
         videoclips = []
 
+        avatar_prompt = self.create_avatar_from_script()
+
         try:
             inputs = [
-                list(tup) + [self.video_path] for tup in enumerate(self.sentences)
+                list(tup) + [self.video_path] + [avatar_prompt]
+                for tup in enumerate(self.sentences)
             ]
 
-            with concurrent.futures.ProcessPoolExecutor() as executor:
+            with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
                 futures = [
                     executor.submit(
                         create_animation_from_sentence, idx_and_text_and_folder
