@@ -39,10 +39,11 @@ set_api_key(os.environ.get("ELEVENLABS"))
 
 
 class Animator:
-    def __init__(self, OpenAIClient, text, video_path):
+    def __init__(self, OpenAIClient, text, video_path, avatar_prompt):
         self.OpenAIClient = OpenAIClient
         self.text = text
         self.video_path = video_path
+        self.avatar_prompt = avatar_prompt
 
         if not os.path.exists(self.video_path):
             os.mkdir(self.video_path)
@@ -52,9 +53,9 @@ class Animator:
     def _text_to_illustration(self):
         if not os.path.exists(f"{self.video_path}/illustration__{self.text}__.png"):
             managed_prompt = f"""
-                Follow this prompt exactly, "flat simple vector illustrations style on WHITE background: {self.text}”.
+            Follow this prompt exactly: "illustration of {self.avatar_prompt}. {self.text}"
 
-                Do not add to the prompt.
+            Do not add to the prompt. Use seed 42 for the generation.
             """
 
             image_generated_response = self.OpenAIClient.images.generate(

@@ -333,3 +333,143 @@ ValueError: max() arg is an empty sequence
 2024-01-07 04:31:55,401 - app.animator.Animator - INFO - Video Duration: 0.735918
 2024-01-07 04:32:06,993 - app.animator.Animator - INFO - Animation created: test
 2024-01-07 04:32:21,208 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb5 - Deleting files...
+2024-01-08 22:36:03,349 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb3 - Starting animation...
+2024-01-08 22:36:05,585 - app.animator.Generator - INFO - Avatar created: In his mid-30s, the man with raven black hair and piercing blue eyes relentlessly chases after the nimble, unknown thief.
+2024-01-08 22:36:15,120 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-RnUsGlaGdbU4vtFaPvoIfiLe.png?st=2024-01-08T21%3A36%3A14Z&se=2024-01-08T23%3A36%3A14Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-08T04%3A43%3A44Z&ske=2024-01-09T04%3A43%3A44Z&sks=b&skv=2021-08-06&sig=Zb33idsbVBQaIAfBsprh27en9RPsaOJQHgO4ljI83YQ%3D
+2024-01-08 22:36:15,570 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-K96BFe4qICld0X8jBxMoANvo.png?st=2024-01-08T21%3A36%3A15Z&se=2024-01-08T23%3A36%3A15Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-08T14%3A31%3A56Z&ske=2024-01-09T14%3A31%3A56Z&sks=b&skv=2021-08-06&sig=8%2BeitGoWGb1Nh1Qw7295I8pv%2BYy7e9bdjL2SZIuxBbc%3D
+2024-01-08 22:36:15,898 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-ck2LlHCKYxca6GZQb7jBGHpg.png?st=2024-01-08T21%3A36%3A15Z&se=2024-01-08T23%3A36%3A15Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-08T11%3A58%3A34Z&ske=2024-01-09T11%3A58%3A34Z&sks=b&skv=2021-08-06&sig=80VtELaQ2Fd2O9lSTwUMc1wuUelKc7U4kiqRJ5wl67g%3D
+2024-01-08 22:36:19,437 - app.animator.Animator - INFO - Caption chunks: ['He ran around to find', 'the thief.']
+2024-01-08 22:36:19,764 - app.animator.Animator - INFO - Caption chunks: ['A man founds out that', 'his wallet was', 'stolen.']
+2024-01-08 22:36:19,954 - app.animator.Animator - INFO - Caption chunks: ['But he was too slow..']
+2024-01-08 22:36:20,896 - app.animator.Animator - ERROR - Error generating audio for folder media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb3/2 - Too many concurrent requests. Your current subscription is associated with a maximum of 2 concurrent requests (running in parallel). This is done such that a single user does not overwhelm our systems and affect other users negatively. Please upgrade your subscription or contact sales if you want to increase this limit.
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 138, in _text_to_audio
+    audio = generate(
+            ^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/elevenlabs/simple.py", line 87, in generate
+    return TTS.generate(
+           ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/elevenlabs/api/tts.py", line 62, in generate
+    response = API.post(url, json=data, api_key=api_key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/elevenlabs/api/base.py", line 79, in post
+    return API.request(url, method="post", *args, **kwargs)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/elevenlabs/api/base.py", line 71, in request
+    raise APIError(message, status)
+elevenlabs.api.error.APIError: Too many concurrent requests. Your current subscription is associated with a maximum of 2 concurrent requests (running in parallel). This is done such that a single user does not overwhelm our systems and affect other users negatively. Please upgrade your subscription or contact sales if you want to increase this limit.
+2024-01-08 22:36:21,118 - app.animator.Animator - INFO - Adding text to illustration: But he was too slow..
+2024-01-08 22:36:21,806 - app.animator.Animator - INFO - Generating audio: He ran around to find
+2024-01-08 22:36:22,053 - app.animator.Animator - INFO - Generating audio: A man founds out that
+2024-01-08 22:36:22,269 - app.animator.Animator - ERROR - Error creating animation for folder media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb3/2 - 'NoneType' object has no attribute 'duration_seconds'
+Traceback (most recent call last):
+  File "/build/app/animator/Animator.py", line 210, in create_animation
+    ).set_duration(audio_chunk.duration_seconds)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'duration_seconds'
+2024-01-08 22:36:22,280 - app.animator.Generator - INFO - Video generation progress: 0.333333
+2024-01-08 22:36:23,743 - app.animator.Animator - INFO - Adding text to illustration: He ran around to find
+2024-01-08 22:36:23,867 - app.animator.Animator - INFO - Adding text to illustration: A man founds out that
+2024-01-08 22:36:26,975 - app.animator.Animator - INFO - Generating audio: the thief.
+2024-01-08 22:36:27,131 - app.animator.Animator - INFO - Generating audio: his wallet was
+2024-01-08 22:36:28,880 - app.animator.Animator - INFO - Adding text to illustration: the thief.
+2024-01-08 22:36:28,961 - app.animator.Animator - INFO - Adding text to illustration: his wallet was
+2024-01-08 22:36:32,170 - app.animator.Animator - INFO - Generating audio: stolen.
+2024-01-08 22:36:32,450 - app.animator.Animator - INFO - Generating audio: He ran around to find the thief.
+2024-01-08 22:36:33,753 - app.animator.Animator - INFO - Adding text to illustration: stolen.
+2024-01-08 22:36:34,596 - app.animator.Animator - INFO - Audio Duration: 1.750000
+2024-01-08 22:36:34,599 - app.animator.Animator - INFO - Video Duration: 1.575986
+2024-01-08 22:36:37,401 - app.animator.Animator - INFO - Generating audio: A man founds out that his wallet was stolen.
+2024-01-08 22:36:40,230 - app.animator.Animator - INFO - Audio Duration: 2.270000
+2024-01-08 22:36:40,233 - app.animator.Animator - INFO - Video Duration: 2.607120
+2024-01-08 22:36:58,738 - app.animator.Animator - INFO - Animation created: He ran around to find the thief.
+2024-01-08 22:36:58,768 - app.animator.Generator - INFO - Video generation progress: 0.666667
+2024-01-08 22:37:12,539 - app.animator.Animator - INFO - Animation created: A man founds out that his wallet was stolen.
+2024-01-08 22:37:12,560 - app.animator.Generator - INFO - Video generation progress: 1.000000
+2024-01-08 22:37:16,408 - app.animator.Generator - ERROR - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb3 - Error parallel processing - MoviePy error: the file media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb3/2/__But he was too slow..__.mp4 could not be found!
+Please check that you entered the correct path.
+Traceback (most recent call last):
+  File "/build/app/animator/Generator.py", line 117, in create_animation_from_script
+    videoclips = [
+                 ^
+  File "/build/app/animator/Generator.py", line 118, in <listcomp>
+    VideoFileClip(videoclip_name) for videoclip_name in videoclip_names
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/moviepy/video/io/VideoFileClip.py", line 88, in __init__
+    self.reader = FFMPEG_VideoReader(filename, pix_fmt=pix_fmt,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/moviepy/video/io/ffmpeg_reader.py", line 35, in __init__
+    infos = ffmpeg_parse_infos(filename, print_infos, check_duration,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/moviepy/video/io/ffmpeg_reader.py", line 270, in ffmpeg_parse_infos
+    raise IOError(("MoviePy error: the file %s could not be found!\n"
+OSError: MoviePy error: the file media/7ca2688a-264d-4c6e-9766-cc48ddd3ffb3/2/__But he was too slow..__.mp4 could not be found!
+Please check that you entered the correct path.
+2024-01-08 22:37:16,427 - app.animator.Generator - ERROR - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb3 - Error creating video - max() arg is an empty sequence
+Traceback (most recent call last):
+  File "/build/app/animator/Generator.py", line 125, in create_animation_from_script
+    composed_videoclip = concatenate_videoclips(videoclips)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/moviepy/video/compositing/concatenate.py", line 75, in concatenate_videoclips
+    w = max(r[0] for r in sizes)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: max() arg is an empty sequence
+2024-01-08 22:39:55,157 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb3 - Starting animation...
+2024-01-08 22:39:57,264 - app.animator.Generator - INFO - Avatar created: Age: Middle-aged
+Hair color: Salt and pepper
+Eye color: Hazel
+Race: Caucasian
+Clothing color: Dark blue
+Gender: Male
+2024-01-08 22:39:57,559 - app.animator.Generator - INFO - Video generation progress: 0.333333
+2024-01-08 22:39:57,565 - app.animator.Generator - INFO - Video generation progress: 0.666667
+2024-01-08 22:39:57,822 - app.animator.Animator - INFO - Caption chunks: ['But he was too slow..']
+2024-01-08 22:40:00,137 - app.animator.Animator - INFO - Generating audio: But he was too slow..
+2024-01-08 22:40:01,852 - app.animator.Animator - INFO - Adding text to illustration: But he was too slow..
+2024-01-08 22:40:04,907 - app.animator.Animator - INFO - Audio Duration: 1.330000
+2024-01-08 22:40:04,911 - app.animator.Animator - INFO - Video Duration: 0.807234
+2024-01-08 22:40:16,607 - app.animator.Animator - INFO - Animation created: But he was too slow..
+2024-01-08 22:40:16,614 - app.animator.Generator - INFO - Video generation progress: 1.000000
+2024-01-08 22:41:11,511 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb3 - Deleting files...
+2024-01-08 22:43:24,816 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb3 - Starting animation...
+2024-01-08 22:43:26,806 - app.animator.Generator - INFO - Avatar created: Meet John, a middle-aged man with greying hair and piercing blue eyes. He wears a faded brown coat and a determined expression.
+2024-01-08 22:43:36,930 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-LCSzZaNxmup8GtMhHWV4XEE9.png?st=2024-01-08T21%3A43%3A36Z&se=2024-01-08T23%3A43%3A36Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-07T23%3A09%3A35Z&ske=2024-01-08T23%3A09%3A35Z&sks=b&skv=2021-08-06&sig=ZPV5Q%2BzRV5R8L3k9%2BDXgOHzayuub3aby1EIyGahLfk8%3D
+2024-01-08 22:43:41,655 - app.animator.Animator - INFO - Caption chunks: ['A man founds out that', 'his wallet was', 'stolen.']
+2024-01-08 22:43:43,864 - app.animator.Animator - INFO - Generating audio: A man founds out that
+2024-01-08 22:43:45,582 - app.animator.Animator - INFO - Adding text to illustration: A man founds out that
+2024-01-08 22:43:49,427 - app.animator.Animator - INFO - Generating audio: his wallet was
+2024-01-08 22:43:51,104 - app.animator.Animator - INFO - Adding text to illustration: his wallet was
+2024-01-08 22:43:54,417 - app.animator.Animator - INFO - Generating audio: stolen.
+2024-01-08 22:43:55,974 - app.animator.Animator - INFO - Adding text to illustration: stolen.
+2024-01-08 22:44:00,725 - app.animator.Animator - INFO - Generating audio: A man founds out that his wallet was stolen.
+2024-01-08 22:44:02,798 - app.animator.Animator - INFO - Audio Duration: 2.270000
+2024-01-08 22:44:02,802 - app.animator.Animator - INFO - Video Duration: 2.528753
+2024-01-08 22:44:29,381 - app.animator.Animator - INFO - Animation created: A man founds out that his wallet was stolen.
+2024-01-08 22:44:29,404 - app.animator.Generator - INFO - Video generation progress: 0.333333
+2024-01-08 22:44:39,860 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-SzYC3ajMYzx46AmDqjW49ZSV.png?st=2024-01-08T21%3A44%3A39Z&se=2024-01-08T23%3A44%3A39Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-08T21%3A19%3A35Z&ske=2024-01-09T21%3A19%3A35Z&sks=b&skv=2021-08-06&sig=SDCXhkZsdV93DgbQ%2BrCS4QRIYf6xXr%2BovkI0KvmxxGo%3D
+2024-01-08 22:44:44,437 - app.animator.Animator - INFO - Caption chunks: ['He ran around the', 'city to find the', 'thief.']
+2024-01-08 22:44:46,662 - app.animator.Animator - INFO - Generating audio: He ran around the
+2024-01-08 22:44:48,283 - app.animator.Animator - INFO - Adding text to illustration: He ran around the
+2024-01-08 22:44:52,212 - app.animator.Animator - INFO - Generating audio: city to find the
+2024-01-08 22:44:53,771 - app.animator.Animator - INFO - Adding text to illustration: city to find the
+2024-01-08 22:44:57,253 - app.animator.Animator - INFO - Generating audio: thief.
+2024-01-08 22:44:58,799 - app.animator.Animator - INFO - Adding text to illustration: thief.
+2024-01-08 22:45:02,811 - app.animator.Animator - INFO - Generating audio: He ran around the city to find the thief.
+2024-01-08 22:45:04,820 - app.animator.Animator - INFO - Audio Duration: 2.040000
+2024-01-08 22:45:04,822 - app.animator.Animator - INFO - Video Duration: 2.264172
+2024-01-08 22:45:31,014 - app.animator.Animator - INFO - Animation created: He ran around the city to find the thief.
+2024-01-08 22:45:31,024 - app.animator.Generator - INFO - Video generation progress: 0.666667
+2024-01-08 22:45:41,646 - app.animator.Animator - INFO - Illustration created: https://oaidalleapiprodscus.blob.core.windows.net/private/org-rewTps2MVzqSQFwaRQEF52BH/user-4S7pOOfTCP79GMVr22tpZPoH/img-gmLMhi5o172weckp2gNDvTHL.png?st=2024-01-08T21%3A45%3A41Z&se=2024-01-08T23%3A45%3A41Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-08T00%3A20%3A03Z&ske=2024-01-09T00%3A20%3A03Z&sks=b&skv=2021-08-06&sig=uVu0VNy7IdBF2sYVRCcYUFvu4eaj1r1kUA7RgMyC8O4%3D
+2024-01-08 22:45:46,344 - app.animator.Animator - INFO - Caption chunks: ['But he was too slow', 'and failed to find', 'it.']
+2024-01-08 22:45:48,722 - app.animator.Animator - INFO - Generating audio: But he was too slow
+2024-01-08 22:45:50,341 - app.animator.Animator - INFO - Adding text to illustration: But he was too slow
+2024-01-08 22:45:53,824 - app.animator.Animator - INFO - Generating audio: and failed to find
+2024-01-08 22:45:55,410 - app.animator.Animator - INFO - Adding text to illustration: and failed to find
+2024-01-08 22:45:58,669 - app.animator.Animator - INFO - Generating audio: it.
+2024-01-08 22:46:00,184 - app.animator.Animator - INFO - Adding text to illustration: it.
+2024-01-08 22:46:04,083 - app.animator.Animator - INFO - Generating audio: But he was too slow and failed to find it.
+2024-01-08 22:46:06,146 - app.animator.Animator - INFO - Audio Duration: 2.120000
+2024-01-08 22:46:06,147 - app.animator.Animator - INFO - Video Duration: 2.213039
+2024-01-08 22:46:31,520 - app.animator.Animator - INFO - Animation created: But he was too slow and failed to find it.
+2024-01-08 22:46:31,557 - app.animator.Generator - INFO - Video generation progress: 1.000000
+2024-01-08 22:47:39,783 - app.animator.Generator - INFO - 7ca2688a-264d-4c6e-9766-cc48ddd3ffb3 - Deleting files...
